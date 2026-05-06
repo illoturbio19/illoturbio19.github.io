@@ -477,6 +477,11 @@ pre {
   display: none;
 }
 
+.featured-project {
+  border-color: rgba(251, 191, 36, 0.34);
+  background: rgba(246, 248, 241, 0.1);
+}
+
 .project-visual {
   position: relative;
   height: 180px;
@@ -487,6 +492,100 @@ pre {
 .project-visual span {
   position: absolute;
   display: block;
+}
+
+.project-visual.carved {
+  background:
+    linear-gradient(180deg, rgba(251, 113, 133, 0.18), rgba(9, 16, 15, 0.12)),
+    radial-gradient(circle at 50% 120%, rgba(251, 191, 36, 0.32), transparent 48%), #120f12;
+}
+
+.project-visual.carved span:first-child {
+  left: 50%;
+  bottom: 24px;
+  width: 132px;
+  height: 108px;
+  border-radius: 46% 46% 38% 38%;
+  background: linear-gradient(135deg, #fb923c, #b45309);
+  box-shadow: inset 18px 0 rgba(255, 237, 213, 0.12), inset -18px 0 rgba(67, 20, 7, 0.22);
+  transform: translateX(-50%);
+}
+
+.project-visual.carved span:nth-child(2) {
+  left: calc(50% - 28px);
+  bottom: 73px;
+  width: 16px;
+  height: 20px;
+  background: #16120f;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.project-visual.carved span:nth-child(3) {
+  right: calc(50% - 44px);
+  bottom: 73px;
+  width: 16px;
+  height: 20px;
+  background: #16120f;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.project-visual.carved::after {
+  position: absolute;
+  left: 50%;
+  bottom: 52px;
+  width: 58px;
+  height: 12px;
+  border-radius: 0 0 999px 999px;
+  background: #16120f;
+  content: "";
+  transform: translateX(-50%);
+}
+
+.project-visual.orbital {
+  background:
+    radial-gradient(circle at 78% 36%, rgba(8, 8, 10, 0.95) 0 26px, rgba(103, 232, 249, 0.2) 27px 31px, transparent 32px),
+    radial-gradient(circle at 26% 68%, rgba(110, 231, 183, 0.24), transparent 24%),
+    linear-gradient(135deg, rgba(103, 232, 249, 0.22), rgba(251, 113, 133, 0.08)), #0b1019;
+}
+
+.project-visual.orbital span {
+  border-radius: 999px;
+}
+
+.project-visual.orbital span:first-child {
+  left: 38px;
+  bottom: 32px;
+  width: 58px;
+  height: 58px;
+  background: linear-gradient(135deg, var(--mint), #15803d);
+}
+
+.project-visual.orbital span:nth-child(2) {
+  left: 126px;
+  top: 42px;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--amber), #f97316);
+  animation: floaty 2.8s ease-in-out infinite;
+}
+
+.project-visual.orbital span:nth-child(3) {
+  right: 58px;
+  bottom: 48px;
+  width: 22px;
+  height: 22px;
+  background: var(--coral);
+}
+
+.project-visual.orbital span:nth-child(4) {
+  left: 82px;
+  top: 70px;
+  width: 10px;
+  height: 20px;
+  border-radius: 999px 999px 4px 4px;
+  background: var(--text);
+  box-shadow: 0 16px 0 -6px var(--cyan);
+  transform: rotate(28deg);
 }
 
 .project-visual.invaders {

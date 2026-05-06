@@ -184,7 +184,8 @@ function setupFilters() {
       const selected = filter.dataset.filter;
       filters.forEach((item) => item.classList.toggle("active", item === filter));
       cards.forEach((card) => {
-        card.classList.toggle("hidden", selected !== "all" && card.dataset.category !== selected);
+        const categories = card.dataset.category.split(" ");
+        card.classList.toggle("hidden", selected !== "all" && !categories.includes(selected));
       });
     });
   });

@@ -14,3 +14,5 @@ Web estàtica feta amb HTML, CSS i JavaScript. Es pot obrir directament amb `ind
 
 - LinkedIn: https://www.linkedin.com/in/iu-tirbió-solduga-961ba632b/
 - GitHub: https://github.com/illoturbio19
+- Carved: https://illoturbio19.itch.io/carved
+- Orbital Hopper: https://penguinstudiosgames.itch.io/orbital-hopper
