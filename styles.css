@@ -100,7 +100,7 @@ button {
   display: flex;
   width: min(1120px, calc(100% - 32px));
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -120,6 +120,7 @@ button {
   gap: 10px;
   padding: 8px;
   font-weight: 800;
+  margin-right: auto;
 }
 
 .brand-mark {
@@ -135,9 +136,11 @@ button {
 
 .nav-links {
   gap: 6px;
+  margin-left: auto;
 }
 
-.nav-links a {
+.nav-links a,
+.language-toggle {
   padding: 9px 12px;
   border-radius: 6px;
   color: var(--muted);
@@ -148,9 +151,19 @@ button {
 }
 
 .nav-links a.active,
-.nav-links a:hover {
+.nav-links a:hover,
+.language-toggle:hover {
   background: var(--panel-strong);
   color: var(--text);
+}
+
+.language-toggle {
+  min-width: 44px;
+  min-height: 40px;
+  margin-left: 6px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  font-weight: 900;
 }
 
 .menu-toggle {
@@ -862,13 +875,30 @@ pre {
 
 .contact {
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.75fr);
-  gap: 32px;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.72fr);
+  gap: clamp(28px, 6vw, 72px);
   align-items: center;
+  width: min(1080px, calc(100% - 64px));
 }
 
 .contact-actions {
   display: grid;
+  gap: 12px;
+}
+
+.contact-copy {
+  max-width: 650px;
+}
+
+.contact h2 {
+  max-width: 680px;
+  font-size: clamp(2.8rem, 5vw, 4.85rem);
+  line-height: 1;
+}
+
+.contact-copy p:not(.eyebrow) {
+  max-width: 580px;
+  font-size: 1.02rem;
 }
 
 .contact-card {
@@ -1023,9 +1053,21 @@ pre {
     width: 100%;
   }
 
+  .language-toggle {
+    margin-left: 0;
+  }
+
   .section {
     width: min(100% - 24px, 1120px);
     padding: 86px 0;
+  }
+
+  .contact {
+    width: min(100% - 24px, 1120px);
+  }
+
+  .contact h2 {
+    font-size: clamp(2.35rem, 13vw, 3.4rem);
   }
 
   .hero {

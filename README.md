@@ -1,18 +1,18 @@
-# Portfolio interactiu d'Iu Tirbió
+# Iu Tirbio Interactive Portfolio
 
-Web estàtica feta amb HTML, CSS i JavaScript. Es pot obrir directament amb `index.html` al navegador.
+Static portfolio built with HTML, CSS and JavaScript. It can be opened directly in the browser through `index.html`.
 
-## Personalització ràpida
+## Quick customization
 
-- Email principal: `iu.tirbio@estudiant.enti.cat`.
-- Email alternatiu: `iutirbio19@gmail.com`.
-- Substitueix o amplia les targetes de projectes dins de la secció `#projects`.
-- Si tens captures, GIFs o vídeos dels projectes, pots reemplaçar els blocs `.project-visual` per imatges o embeds.
-- Els textos de skills es poden editar a `script.js`, dins de `skillContent`.
+- Main email: `iu.tirbio@estudiant.enti.cat`.
+- Alternative email: `iutirbio19@gmail.com`.
+- Replace or expand the project cards inside the `#projects` section.
+- If you have screenshots, GIFs or videos for the projects, replace the `.project-visual` blocks with images or embeds.
+- Skill texts and language strings are managed in `script.js`, inside the `translations` object.
 
-## Enllaços inclosos
+## Included links
 
-- LinkedIn: https://www.linkedin.com/in/iu-tirbió-solduga-961ba632b/
+- LinkedIn: https://www.linkedin.com/in/iu-tirbio-solduga-961ba632b/
 - GitHub: https://github.com/illoturbio19
 - Carved: https://illoturbio19.itch.io/carved
 - Orbital Hopper: https://penguinstudiosgames.itch.io/orbital-hopper

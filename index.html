@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Portfolio interactiu d'Iu Tirbió Solduga, programador orientat a jocs, simulació, física i experiències digitals."
+      content="Interactive portfolio for Iu Tirbio Solduga, a game developer focused on gameplay, simulation, physics and digital experiences."
     />
-    <title>Iu Tirbió Solduga | Portfolio Interactiu</title>
+    <title>Iu Tirbio Solduga | Interactive Portfolio</title>
     <link rel="preconnect" href="https://avatars.githubusercontent.com" />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -17,52 +17,54 @@
     <div class="cursor-ring" aria-hidden="true"></div>
 
     <header class="site-header">
-      <a class="brand" href="#home" aria-label="Inici">
+      <a class="brand" href="#home" aria-label="Home">
         <span class="brand-mark">IT</span>
-        <span>Iu Tirbió</span>
+        <span>Iu Tirbio</span>
       </a>
 
-      <button class="menu-toggle" type="button" aria-label="Obrir menu" aria-expanded="false">
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
         <span></span>
         <span></span>
       </button>
 
-      <nav class="nav-links" aria-label="Navegació principal">
-        <a href="#home" data-section="home">Inici</a>
-        <a href="#projects" data-section="projects">Projectes</a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#home" data-section="home">Home</a>
+        <a href="#projects" data-section="projects">Projects</a>
         <a href="#skills" data-section="skills">Skills</a>
-        <a href="#contact" data-section="contact">Contacte</a>
+        <a href="#contact" data-section="contact">Contact</a>
       </nav>
+
+      <button class="language-toggle" type="button" aria-label="Switch language" data-language-toggle>CA</button>
     </header>
 
     <main>
       <section class="hero section" id="home" data-section-theme="home">
         <div class="hero-copy reveal">
-          <p class="eyebrow">Game developer · Simulació · Xarxa</p>
-          <h1>Iu Tirbió Solduga</h1>
+          <p class="eyebrow">Game developer · Simulation · Networking</p>
+          <h1>Iu Tirbio Solduga</h1>
           <p class="lead">
-            Creo prototips jugables i sistemes interactius amb mentalitat de gameplay, física i codi clar.
+            I build playable prototypes and interactive systems with a gameplay mindset, applied physics and clear code.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#projects">Veure projectes</a>
+            <a class="button primary" href="#projects">View projects</a>
             <a class="button ghost" href="https://github.com/illoturbio19" target="_blank" rel="noreferrer">
               GitHub
             </a>
           </div>
         </div>
 
-        <aside class="profile-orbit reveal" aria-label="Targeta de perfil">
+        <aside class="profile-orbit reveal" aria-label="Profile card">
           <div class="orbit-ring"></div>
           <img
             src="https://avatars.githubusercontent.com/u/159422761?v=4"
-            alt="Avatar de GitHub d'Iu Tirbió"
+            alt="GitHub avatar for Iu Tirbio"
             width="240"
             height="240"
           />
-          <div class="status-chip">Disponible per pràctiques i projectes</div>
+          <div class="status-chip">Available for internships and projects</div>
         </aside>
 
-        <div class="hero-console reveal" aria-label="Consola de perfil">
+        <div class="hero-console reveal" aria-label="Profile console">
           <div class="console-bar">
             <span></span>
             <span></span>
@@ -72,33 +74,33 @@
         </div>
       </section>
 
-      <section class="stats-band reveal" aria-label="Àrees destacades">
+      <section class="stats-band reveal" aria-label="Featured areas">
         <article>
           <strong>Gameplay</strong>
-          <span>Prototips, loops i feedback visual</span>
+          <span>Prototypes, loops and visual feedback</span>
         </article>
         <article>
-          <strong>Física</strong>
-          <span>Rigidbodies, quaternions i simulació</span>
+          <strong>Physics</strong>
+          <span>Rigidbodies, quaternions and simulation</span>
         </article>
         <article>
-          <strong>Xarxa</strong>
-          <span>Clients, servidors i sincronització</span>
+          <strong>Networking</strong>
+          <span>Clients, servers and synchronization</span>
         </article>
       </section>
 
       <section class="section projects" id="projects" data-section-theme="projects">
         <div class="section-heading reveal">
-          <p class="eyebrow">Repos i prototips</p>
-          <h2>Projectes en moviment</h2>
+          <p class="eyebrow">Repos and prototypes</p>
+          <h2>Projects in motion</h2>
         </div>
 
-        <div class="filter-bar reveal" role="tablist" aria-label="Filtrar projectes">
-          <button class="filter active" type="button" data-filter="all">Tots</button>
-          <button class="filter" type="button" data-filter="game">Jocs</button>
+        <div class="filter-bar reveal" role="tablist" aria-label="Filter projects">
+          <button class="filter active" type="button" data-filter="all">All</button>
+          <button class="filter" type="button" data-filter="game">Games</button>
           <button class="filter" type="button" data-filter="itch">Itch.io</button>
-          <button class="filter" type="button" data-filter="physics">Física</button>
-          <button class="filter" type="button" data-filter="network">Xarxa</button>
+          <button class="filter" type="button" data-filter="physics">Physics</button>
+          <button class="filter" type="button" data-filter="network">Networking</button>
         </div>
 
         <div class="project-grid">
@@ -109,10 +111,10 @@
               <span></span>
             </div>
             <div class="project-content">
-              <p class="project-type">Itch.io · Joc publicat</p>
+              <p class="project-type">Itch.io · Published game</p>
               <h3>Carved</h3>
-              <p>Projecte publicat a itch.io amb accés directe perquè el visitant pugui entrar-hi i provar-lo.</p>
-              <a href="https://illoturbio19.itch.io/carved" target="_blank" rel="noreferrer">Jugar a itch.io</a>
+              <p>Published on itch.io with a direct link so visitors can jump in and try it.</p>
+              <a href="https://illoturbio19.itch.io/carved" target="_blank" rel="noreferrer">Play on itch.io</a>
             </div>
           </article>
 
@@ -126,9 +128,9 @@
             <div class="project-content">
               <p class="project-type">Itch.io · Unity · HTML5 / Android</p>
               <h3>Orbital Hopper</h3>
-              <p>Endless runner espacial on saltes de planeta en planeta mentre un forat negre devora el sistema.</p>
+              <p>A space endless runner where you jump from planet to planet while a black hole devours the system.</p>
               <a href="https://penguinstudiosgames.itch.io/orbital-hopper" target="_blank" rel="noreferrer">
-                Jugar a itch.io
+                Play on itch.io
               </a>
             </div>
           </article>
@@ -142,8 +144,8 @@
             <div class="project-content">
               <p class="project-type">Arcade · Public repo</p>
               <h3>LINFO-INVADERS</h3>
-              <p>Un projecte arcade pensat per practicar estructura de joc, input, estats i iteració ràpida.</p>
-              <a href="https://github.com/illoturbio19/LINFO-INVADERS" target="_blank" rel="noreferrer">Obrir repo</a>
+              <p>An arcade project built to practice game structure, input, states and fast iteration.</p>
+              <a href="https://github.com/illoturbio19/LINFO-INVADERS" target="_blank" rel="noreferrer">Open repo</a>
             </div>
           </article>
 
@@ -153,10 +155,10 @@
               <span></span>
             </div>
             <div class="project-content">
-              <p class="project-type">SDL · Joc final</p>
+              <p class="project-type">SDL · Final game</p>
               <h3>SDL_GAME_FINAL</h3>
-              <p>Treball de joc complet amb focus en render, assets, control de flux i poliment del gameplay.</p>
-              <a href="https://github.com/illoturbio19" target="_blank" rel="noreferrer">Repo privat · perfil</a>
+              <p>A complete game project focused on rendering, assets, flow control and gameplay polish.</p>
+              <a href="https://github.com/illoturbio19" target="_blank" rel="noreferrer">Private repo · profile</a>
             </div>
           </article>
 
@@ -167,10 +169,10 @@
               <span></span>
             </div>
             <div class="project-content">
-              <p class="project-type">Simulació · Mecànica</p>
+              <p class="project-type">Simulation · Mechanics</p>
               <h3>AA2 Rigidbody Grup 7</h3>
-              <p>Sistemes de moviment i col·lisions amb una base de física aplicada a temps real.</p>
-              <a href="https://github.com/illoturbio19" target="_blank" rel="noreferrer">Repo privat · perfil</a>
+              <p>Movement and collision systems built on a real-time applied physics foundation.</p>
+              <a href="https://github.com/illoturbio19" target="_blank" rel="noreferrer">Private repo · profile</a>
             </div>
           </article>
 
@@ -180,9 +182,9 @@
             </div>
             <div class="project-content">
               <p class="project-type">3D math · Quaternions</p>
-              <h3>Mecànica II Quaternions</h3>
-              <p>Rotacions, orientació i càlcul matemàtic per entendre millor el moviment en entorns 3D.</p>
-              <a href="https://github.com/illoturbio19" target="_blank" rel="noreferrer">Repo privat · perfil</a>
+              <h3>Mechanics II Quaternions</h3>
+              <p>Rotations, orientation and math work to better understand movement in 3D spaces.</p>
+              <a href="https://github.com/illoturbio19" target="_blank" rel="noreferrer">Private repo · profile</a>
             </div>
           </article>
 
@@ -195,9 +197,9 @@
             </div>
             <div class="project-content">
               <p class="project-type">Networking · Multiplayer</p>
-              <h3>Programació Jocs Xarxa</h3>
-              <p>Pràctica orientada a comunicació, sincronització i arquitectura bàsica de jocs en xarxa.</p>
-              <a href="https://github.com/illoturbio19" target="_blank" rel="noreferrer">Repo privat · perfil</a>
+              <h3>Network Game Programming</h3>
+              <p>Practice focused on communication, synchronization and basic architecture for networked games.</p>
+              <a href="https://github.com/illoturbio19" target="_blank" rel="noreferrer">Private repo · profile</a>
             </div>
           </article>
 
@@ -207,10 +209,10 @@
               <span></span>
             </div>
             <div class="project-content">
-              <p class="project-type">Mecànica · Grup</p>
-              <h3>AA1 Grup 8 Mecànica</h3>
-              <p>Projecte de simulació amb escenaris de prova, forces i comportaments físics controlats.</p>
-              <a href="https://github.com/illoturbio19" target="_blank" rel="noreferrer">Repo privat · perfil</a>
+              <p class="project-type">Mechanics · Team</p>
+              <h3>AA1 Group 8 Mechanics</h3>
+              <p>A simulation project with test scenarios, forces and controlled physical behaviours.</p>
+              <a href="https://github.com/illoturbio19" target="_blank" rel="noreferrer">Private repo · profile</a>
             </div>
           </article>
         </div>
@@ -218,8 +220,8 @@
 
       <section class="section skills" id="skills" data-section-theme="skills">
         <div class="section-heading reveal">
-          <p class="eyebrow">Stack personal</p>
-          <h2>El que puc aportar</h2>
+          <p class="eyebrow">Personal stack</p>
+          <h2>What I can bring</h2>
         </div>
 
         <div class="skills-layout">
@@ -230,24 +232,24 @@
             </button>
             <button class="skill-row" type="button" data-skill="physics">
               <span>02</span>
-              Física i matemàtiques
+              Physics and math
             </button>
             <button class="skill-row" type="button" data-skill="systems">
               <span>03</span>
-              Sistemes i arquitectura
+              Systems and architecture
             </button>
             <button class="skill-row" type="button" data-skill="network">
               <span>04</span>
-              Jocs en xarxa
+              Networked games
             </button>
           </div>
 
           <article class="skill-detail reveal" id="skill-detail">
-            <p class="project-type">Selecciona una línia</p>
+            <p class="project-type">Select a line</p>
             <h3>Gameplay programming</h3>
             <p>
-              Converteixo idees en prototips jugables: control, càmera, feedback, estats i iteració ràpida per trobar
-              què fa que una experiència sigui clara i divertida.
+              I turn ideas into playable prototypes: controls, camera, feedback, states and fast iteration to find what
+              makes an experience clear and fun.
             </p>
             <div class="meter-list">
               <span style="--value: 88%">C++ / C#</span>
@@ -260,29 +262,29 @@
 
       <section class="section contact" id="contact" data-section-theme="contact">
         <div class="contact-copy reveal">
-          <p class="eyebrow">Contacte</p>
-          <h2>Construïm alguna cosa que es pugui jugar.</h2>
+          <p class="eyebrow">Contact</p>
+          <h2>Let's build something playable.</h2>
           <p>
-            Pots trobar-me a LinkedIn o revisar els meus projectes a GitHub. Aquest portfolio està preparat perquè hi
-            afegeixis vídeos, captures o builds jugables quan els tinguis.
+            You can find me on LinkedIn or review my projects on GitHub. This portfolio is ready to grow with videos,
+            screenshots and playable builds as they become available.
           </p>
         </div>
 
         <div class="contact-actions reveal">
           <a class="contact-card" href="https://www.linkedin.com/in/iu-tirbió-solduga-961ba632b/" target="_blank" rel="noreferrer">
             <span>LinkedIn</span>
-            <strong>Perfil professional</strong>
+            <strong>Professional profile</strong>
           </a>
           <a class="contact-card" href="https://github.com/illoturbio19" target="_blank" rel="noreferrer">
             <span>GitHub</span>
             <strong>@illoturbio19</strong>
           </a>
           <button class="contact-card copy-email" type="button" data-email="iu.tirbio@estudiant.enti.cat">
-            <span>Email principal</span>
+            <span>Main email</span>
             <strong id="copy-label">iu.tirbio@estudiant.enti.cat</strong>
           </button>
           <a class="contact-card" href="mailto:iutirbio19@gmail.com">
-            <span>Email alternatiu</span>
+            <span>Alternative email</span>
             <strong>iutirbio19@gmail.com</strong>
           </a>
         </div>
@@ -290,8 +292,8 @@
     </main>
 
     <footer class="site-footer">
-      <span>Portfolio interactiu · Iu Tirbió Solduga</span>
-      <a href="#home">Tornar amunt</a>
+      <span>Interactive portfolio · Iu Tirbio Solduga</span>
+      <a href="#home">Back to top</a>
     </footer>
 
     <script src="script.js"></script>
