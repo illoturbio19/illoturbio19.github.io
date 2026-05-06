@@ -290,8 +290,8 @@ function translateStaticText() {
   const content = translations[currentLanguage];
   document.documentElement.lang = content.lang;
   document.title = content.metaTitle;
-  document.querySelector("meta[name='description']").setAttribute("content", content.metaDescription);
-  languageToggle.textContent = content.toggle;
+  document.querySelector("meta[name='description']")?.setAttribute("content", content.metaDescription);
+  if (languageToggle) languageToggle.textContent = content.toggle;
 
   Object.entries(content.text).forEach(([selector, text]) => {
     const element = document.querySelector(selector);
@@ -509,6 +509,8 @@ function setupCursorStates() {
 }
 
 function setupLanguageToggle() {
+  if (!languageToggle) return;
+
   languageToggle.addEventListener("click", () => {
     applyLanguage(currentLanguage === "en" ? "ca" : "en");
   });
