@@ -259,8 +259,7 @@ h3 {
 }
 
 .hero-actions,
-.filter-bar,
-.contact-actions {
+.filter-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
@@ -883,7 +882,7 @@ pre {
 
 .contact-actions {
   display: grid;
-  gap: 20px;
+  gap: 24px;
 }
 
 .contact-copy {
