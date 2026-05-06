@@ -883,7 +883,7 @@ pre {
 
 .contact-actions {
   display: grid;
-  gap: 12px;
+  gap: 20px;
 }
 
 .contact-copy {
