@@ -622,6 +622,10 @@ function setupTilt() {
 }
 
 function setupSkills() {
+  const nodes = [];
+  let magnets;
+  let previousWidth = 0;
+  let previousHeight = 0;
   masteryStack.forEach((tool) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -639,11 +643,13 @@ function setupSkills() {
     button.append(icon, label);
     button.addEventListener("click", () => selectTool(tool));
     masteryMap.append(button);
+    nodes.push({ id: tool.name, button });
   });
 
   function layoutBubbles() {
     const width = masteryMap.clientWidth;
     const height = masteryMap.clientHeight;
+    if (!width || !height || (width === previousWidth && height === previousHeight)) return;
     const gap = 5;
     const circles = masteryStack.map((tool) => ({ r: Math.sqrt(tool.weight) * 8 + gap }));
     d3.packSiblings(circles);
@@ -657,14 +663,24 @@ function setupSkills() {
     circles.forEach((circle, index) => {
       const button = masteryMap.children[index];
       const diameter = (circle.r - gap) * scale * 2;
-      button.style.left = `${offsetX + (circle.x - left) * scale}px`;
-      button.style.top = `${offsetY + (circle.y - top) * scale}px`;
+      const node = nodes[index];
+      node.x = magnets ? node.x / previousWidth * width : offsetX + (circle.x - left) * scale;
+      node.y = magnets ? node.y / previousHeight * height : offsetY + (circle.y - top) * scale;
+      node.r = diameter / 2;
+      node.vx = 0;
+      node.vy = 0;
+      button.style.left = `${node.x}px`;
+      button.style.top = `${node.y}px`;
       button.style.setProperty("--diameter", `${diameter}px`);
       button.style.setProperty("--icon-size", `${Math.min(diameter * 0.4, 76)}px`);
       button.style.setProperty("--label-size", `${diameter < 70 ? 10 : diameter < 100 ? 12 : 14}px`);
       button.querySelector("span").textContent = masteryStack[index].name === "JavaScript" && diameter < 70
         ? "JS" : masteryStack[index].name;
     });
+    previousWidth = width;
+    previousHeight = height;
+    if (magnets) magnets.refresh();
+    else magnets = createMagneticBubbles(masteryMap, nodes);
   }
 
   new ResizeObserver(layoutBubbles).observe(masteryMap);
@@ -707,6 +723,7 @@ window.addEventListener("resize", resizeCanvas);
 window.addEventListener("mousemove", moveCursor);
 
 setupSkills();
+document.querySelectorAll("img").forEach((image) => { image.draggable = false; });
 setupProjectVideos();
 applyLanguage("en");
 resizeCanvas();

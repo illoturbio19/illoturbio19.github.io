@@ -11,8 +11,13 @@ Static portfolio built with HTML, CSS and JavaScript. It can be opened directly 
 - Videos pause when less than 25% of the player is visible, when the page is hidden or loses focus, when a filter hides the project, or when another video starts. Returning to the page does not resume playback automatically; the player retains its position.
 - Carved links to its Windows download. Orbital Hopper links to the web demo and Android build on itch.io; that page currently requires a password. No access credentials are stored in this repository.
 - Bubble sizes, icons and skill descriptions are managed in `script.js`, inside `masteryStack`. Weights express the stack ranking, not measured proficiency percentages.
+- Bubble dragging, collisions and magnetic attachments are managed in `assets/magnetic-bubbles.js`. Nearby bubbles snap together on release; pulling far enough detaches them. Click, Enter and Space still select tool information. Images and bubble labels cannot be selected or natively dragged, while normal portfolio text remains selectable.
 - English and Catalan interface strings are managed in the `translations` object.
 - Profile picture: `assets/pfp.jpeg`. Contact icons and the bubble chart dependency are local, so the portfolio also works offline.
+
+## Checks
+
+Run the magnetic bubble gesture and physics regression tests with `node --test tests/magnetic-bubbles.test.cjs`. No installation is required.
 
 ## Included links
 
@@ -29,6 +34,7 @@ Static portfolio built with HTML, CSS and JavaScript. It can be opened directly 
 ## Asset Credits
 
 - Circle packing: [d3-hierarchy 3.1.2](https://github.com/d3/d3-hierarchy), ISC license in `assets/vendor/D3-LICENSE`.
+- Magnetic bubble physics: [d3-force 3.0.0](https://github.com/d3/d3-force), with d3-dispatch 3.0.1, d3-quadtree 3.0.1 and d3-timer 3.0.1. ISC licenses are included in `assets/vendor/D3-FORCE-LICENSE`, `D3-DISPATCH-LICENSE`, `D3-QUADTREE-LICENSE` and `D3-TIMER-LICENSE`. All dependencies are local.
 - Development logos: [Devicon 2.17.0](https://github.com/devicons/devicon), MIT license in `assets/icons/DEVICON-LICENSE`.
 - ChatGPT, itch.io, Gmail and Instagram logos: [Simple Icons 11.0.0](https://github.com/simple-icons/simple-icons), license in `assets/icons/SIMPLE-ICONS-LICENSE`.
 - Fork icon: [fork.dev](https://fork.dev/images/logo.png). Product logos remain the property of their respective owners.

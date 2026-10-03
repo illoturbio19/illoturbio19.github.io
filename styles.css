@@ -444,6 +444,12 @@ pre {
   text-align: center;
 }
 
+img {
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 .section-heading h2 {
   max-width: 100%;
   font-size: 3rem;
@@ -917,6 +923,26 @@ pre {
   max-width: 880px;
   height: 560px;
   margin: 0 auto 24px;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.mastery-map * {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+body:has(.mastery-map:hover) .cursor-dot,
+body:has(.mastery-map:hover) .cursor-ring,
+body.dragging-bubble .cursor-dot,
+body.dragging-bubble .cursor-ring {
+  opacity: 0;
+}
+
+body.dragging-bubble,
+body.dragging-bubble * {
+  cursor: grabbing !important;
 }
 
 .mastery-bubble {
@@ -935,6 +961,8 @@ pre {
   color: var(--text);
   font-size: var(--label-size);
   font-weight: 700;
+  cursor: grab;
+  touch-action: none;
   transform: translate(-50%, -50%);
   transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
@@ -973,6 +1001,21 @@ pre {
 .mastery-bubble:focus-visible {
   outline: 2px solid var(--text);
   outline-offset: 4px;
+}
+
+.mastery-bubble.is-linked {
+  border-color: var(--bubble-color);
+}
+
+.mastery-bubble.is-near,
+.mastery-bubble.is-dragging {
+  z-index: 2;
+  border-color: var(--bubble-color);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--bubble-color) 22%, transparent);
+}
+
+.mastery-bubble.is-dragging {
+  z-index: 3;
 }
 
 .mastery-detail {
