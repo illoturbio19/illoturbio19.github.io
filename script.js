@@ -14,15 +14,28 @@ const masteryCategory = document.querySelector("#mastery-category");
 const masteryDescription = document.querySelector("#mastery-description");
 const typewriter = document.querySelector("#typewriter");
 const languageToggle = document.querySelector("[data-language-toggle]");
-const videoStage = document.querySelector("#carved-video");
-const videoPlay = videoStage.querySelector(".video-play");
-const videoPoster = videoStage.querySelector(".video-poster");
-const videoOptions = [...document.querySelectorAll(".video-option")];
-const videoExternal = document.querySelector(".video-external");
 const projectVideos = {
-  gameplay: { id: "zGf6Rv4l1-w", poster: "assets/projects/carved-gameplay.jpg", duration: "2:22" },
-  trailer: { id: "T5j-b9MD9IY", poster: "assets/projects/carved-trailer.jpg", duration: "0:31" },
+  carved: {
+    title: "Carved",
+    gameplay: { id: "zGf6Rv4l1-w", poster: "assets/projects/carved-gameplay.jpg", duration: "2:22" },
+    trailer: { id: "T5j-b9MD9IY", poster: "assets/projects/carved-trailer.jpg", duration: "0:31" },
+  },
+  orbital: {
+    title: "Orbital Hopper",
+    gameplay: { id: "Fjt7YGtNRdA", poster: "assets/projects/orbital-hopper-gameplay.webp", duration: "1:24",
+      url: "https://www.youtube.com/shorts/Fjt7YGtNRdA" },
+  },
 };
+const projectPlayers = [...document.querySelectorAll(".video-stage")].map((stage) => {
+  const card = stage.closest(".project-card");
+  return {
+    stage, card, project: card.dataset.project, currentVideo: "gameplay",
+    play: stage.querySelector(".video-play"), poster: stage.querySelector(".video-poster"),
+    options: [...card.querySelectorAll(".video-option")], external: card.querySelector(".video-external"),
+    player: null, ready: false, allowStart: false, requestId: 0,
+  };
+});
+let youtubeApiPromise;
 
 // Relative weights follow the portfolio's stack ranking, not proficiency percentages.
 const masteryStack = [
@@ -150,10 +163,11 @@ const translations = {
     },
     stackLabel: "Languages and applications",
     videoLabels: { gameplay: "Gameplay", trailer: "Trailer" },
-    videoGroup: "Carved videos",
-    videoPlayLabel: "Play Carved",
-    videoPreviewLabel: "Carved video preview",
-    orbitalLinkLabel: "Open Orbital Hopper on itch.io",
+    videoGroup: "videos",
+    videoPlayLabel: "Play",
+    videoPreviewLabel: "Video preview",
+    videoLoading: "Loading video...",
+    videoError: "Video unavailable. Watch on YouTube.",
     stackGroups: {
       language: "Language", engine: "Game engine", version: "Version control",
       ai: "AI", planning: "Project management", publishing: "Publishing", web: "Web",
@@ -237,10 +251,11 @@ const translations = {
     },
     stackLabel: "Llenguatges i aplicacions",
     videoLabels: { gameplay: "Gameplay", trailer: "Trailer" },
-    videoGroup: "Videos de Carved",
-    videoPlayLabel: "Reproduir Carved",
-    videoPreviewLabel: "Previsualitzacio del video de Carved",
-    orbitalLinkLabel: "Obrir Orbital Hopper a itch.io",
+    videoGroup: "videos",
+    videoPlayLabel: "Reproduir",
+    videoPreviewLabel: "Previsualitzacio del video",
+    videoLoading: "Carregant video...",
+    videoError: "Video no disponible. Mira'l a YouTube.",
     stackGroups: {
       language: "Llenguatge", engine: "Motor de joc", version: "Control de versions",
       ai: "IA", planning: "Gestio de projectes", publishing: "Publicacio", web: "Web",
@@ -250,7 +265,6 @@ const translations = {
 
 let currentLanguage = "en";
 let currentTool = masteryStack[0];
-let currentVideo = "gameplay";
 let particles = [];
 let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 let typeIndex = 0;
@@ -273,55 +287,174 @@ function translateStaticText() {
     const tool = masteryStack[index];
     button.title = `${tool.name} - ${content.stackGroups[tool.group]}`;
   });
-  translateProjectVideo();
-  document.querySelector(".orbital-cover").setAttribute("aria-label", content.orbitalLinkLabel);
+  projectPlayers.forEach(translateProjectVideo);
 }
 
-function translateProjectVideo() {
+function translateProjectVideo(controller) {
   const content = translations[currentLanguage];
-  const label = content.videoLabels[currentVideo];
-  videoPlay.setAttribute("aria-label", `${content.videoPlayLabel} ${label.toLowerCase()}`);
-  videoPlay.querySelector(".video-play-label").textContent = `${label} · ${projectVideos[currentVideo].duration}`;
-  videoPoster.alt = `${content.videoPreviewLabel} - ${label}`;
-  videoStage.querySelector("iframe")?.setAttribute("title", `Carved - ${label}`);
-  videoExternal.setAttribute("aria-label", `Carved - ${label} - YouTube`);
-  document.querySelector(".video-selector").setAttribute("aria-label", content.videoGroup);
+  const project = projectVideos[controller.project];
+  const label = content.videoLabels[controller.currentVideo];
+  controller.play.setAttribute("aria-label", `${content.videoPlayLabel} ${project.title} ${label.toLowerCase()}`);
+  controller.play.querySelector(".video-play-label").textContent = controller.play.disabled
+    ? content.videoLoading : `${label} · ${project[controller.currentVideo].duration}`;
+  controller.poster.alt = `${content.videoPreviewLabel} - ${project.title} - ${label}`;
+  controller.stage.querySelector("iframe")?.setAttribute("title", `${project.title} - ${label}`);
+  controller.external.setAttribute("aria-label", `${project.title} - ${label} - YouTube`);
+  controller.card.querySelector(".video-selector")?.setAttribute("aria-label", `${project.title} - ${content.videoGroup}`);
 }
 
-function resetProjectVideo() {
-  videoStage.querySelector("iframe")?.remove();
-  videoPoster.hidden = false;
-  videoPlay.hidden = false;
-}
-
-function setupProjectVideos() {
-  videoOptions.forEach((option) => {
-    option.addEventListener("click", () => {
-      if (option.dataset.video === currentVideo) return;
-      resetProjectVideo();
-      currentVideo = option.dataset.video;
-      videoPoster.src = projectVideos[currentVideo].poster;
-      videoExternal.href = `https://www.youtube.com/watch?v=${projectVideos[currentVideo].id}`;
-      videoOptions.forEach((item) => {
-        item.classList.toggle("active", item === option);
-        item.setAttribute("aria-pressed", String(item === option));
-      });
-      translateProjectVideo();
+function loadYouTubeApi() {
+  if (window.YT?.Player) return Promise.resolve(window.YT);
+  if (!youtubeApiPromise) {
+    youtubeApiPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      const fail = () => {
+        window.clearTimeout(timeout);
+        script.remove();
+        youtubeApiPromise = undefined;
+        reject(new Error("YouTube player API unavailable"));
+      };
+      const timeout = window.setTimeout(fail, 15000);
+      window.onYouTubeIframeAPIReady = () => {
+        window.clearTimeout(timeout);
+        resolve(window.YT);
+      };
+      script.src = "https://www.youtube.com/iframe_api";
+      script.onerror = fail;
+      document.head.append(script);
     });
-  });
+  }
+  return youtubeApiPromise;
+}
 
-  videoPlay.addEventListener("click", () => {
-    // Load third-party media only after an explicit play action.
+function isProjectVideoVisible(controller) {
+  const fullscreen = document.fullscreenElement;
+  if (fullscreen && controller.stage.contains(fullscreen)) return true;
+  const rect = controller.stage.getBoundingClientRect();
+  if (!rect.width || !rect.height) return false;
+  const width = Math.max(0, Math.min(rect.right, window.innerWidth) - Math.max(rect.left, 0));
+  const height = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 90));
+  return width * height / (rect.width * rect.height) >= 0.25;
+}
+
+function canPlayProjectVideo(controller) {
+  return !document.hidden && document.hasFocus() && isProjectVideoVisible(controller);
+}
+
+function pauseProjectVideo(controller) {
+  controller.allowStart = false;
+  if (controller.ready) controller.player.pauseVideo();
+}
+
+function pauseOtherProjectVideos(activeController) {
+  projectPlayers.forEach((controller) => {
+    if (controller !== activeController) pauseProjectVideo(controller);
+  });
+}
+
+function resetProjectVideo(controller) {
+  pauseProjectVideo(controller);
+  controller.requestId += 1;
+  controller.player?.destroy();
+  controller.player = null;
+  controller.ready = false;
+  controller.stage.querySelector("iframe")?.remove();
+  controller.poster.hidden = false;
+  controller.play.hidden = false;
+  controller.play.disabled = false;
+  controller.stage.removeAttribute("aria-busy");
+  translateProjectVideo(controller);
+}
+
+async function startProjectVideo(controller) {
+  pauseOtherProjectVideos(controller);
+  controller.allowStart = true;
+  controller.play.disabled = true;
+  controller.stage.setAttribute("aria-busy", "true");
+  translateProjectVideo(controller);
+  const requestId = ++controller.requestId;
+  try {
+    // No third-party media is loaded before an explicit play action.
+    const api = await loadYouTubeApi();
+    if (requestId !== controller.requestId || !controller.allowStart || !canPlayProjectVideo(controller)) return;
+    const video = projectVideos[controller.project][controller.currentVideo];
     const frame = document.createElement("iframe");
-    frame.src = `https://www.youtube-nocookie.com/embed/${projectVideos[currentVideo].id}?autoplay=1&rel=0&playsinline=1`;
-    frame.title = `Carved - ${translations[currentLanguage].videoLabels[currentVideo]}`;
+    const url = new URL(`https://www.youtube-nocookie.com/embed/${video.id}`);
+    url.search = new URLSearchParams({ enablejsapi: "1", autoplay: "0", rel: "0", playsinline: "1" });
+    if (window.location.origin !== "null") url.searchParams.set("origin", window.location.origin);
+    frame.src = url.href;
+    frame.title = `${projectVideos[controller.project].title} - ${translations[currentLanguage].videoLabels[controller.currentVideo]}`;
     frame.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
     frame.allowFullscreen = true;
     frame.referrerPolicy = "strict-origin-when-cross-origin";
-    videoPoster.hidden = true;
-    videoPlay.hidden = true;
-    videoStage.append(frame);
-    frame.focus();
+    controller.poster.hidden = true;
+    controller.play.hidden = true;
+    controller.stage.append(frame);
+    controller.player = new api.Player(frame, {
+      events: {
+        onReady(event) {
+          if (requestId !== controller.requestId) return;
+          controller.ready = true;
+          if (controller.allowStart && canPlayProjectVideo(controller)) event.target.playVideo();
+          else pauseProjectVideo(controller);
+        },
+        onStateChange(event) {
+          if (requestId !== controller.requestId || event.data !== api.PlayerState.PLAYING) return;
+          if (!canPlayProjectVideo(controller)) pauseProjectVideo(controller);
+          else pauseOtherProjectVideos(controller);
+        },
+      },
+    });
+  } catch {
+    if (requestId !== controller.requestId) return;
+    resetProjectVideo(controller);
+    controller.play.querySelector(".video-play-label").textContent = translations[currentLanguage].videoError;
+  } finally {
+    if (requestId === controller.requestId) {
+      controller.play.disabled = false;
+      controller.stage.removeAttribute("aria-busy");
+      translateProjectVideo(controller);
+    }
+  }
+}
+
+function setupProjectVideos() {
+  const visibilityObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const controller = projectPlayers.find((item) => item.stage === entry.target);
+      if (entry.intersectionRatio < 0.25 && !isProjectVideoVisible(controller)) pauseProjectVideo(controller);
+    });
+  }, { threshold: 0.25, rootMargin: "-90px 0px 0px" });
+
+  projectPlayers.forEach((controller) => {
+    visibilityObserver.observe(controller.stage);
+    controller.options.forEach((option) => {
+      option.addEventListener("click", () => {
+        if (option.dataset.video === controller.currentVideo) return;
+        resetProjectVideo(controller);
+        controller.currentVideo = option.dataset.video;
+        const video = projectVideos[controller.project][controller.currentVideo];
+        controller.poster.src = video.poster;
+        controller.external.href = video.url || `https://www.youtube.com/watch?v=${video.id}`;
+        controller.options.forEach((item) => {
+          item.classList.toggle("active", item === option);
+          item.setAttribute("aria-pressed", String(item === option));
+        });
+        translateProjectVideo(controller);
+      });
+    });
+    controller.play.addEventListener("click", () => startProjectVideo(controller));
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) pauseOtherProjectVideos();
+  });
+  window.addEventListener("pagehide", () => pauseOtherProjectVideos());
+  window.addEventListener("blur", () => {
+    // Focusing an embedded player also fires blur; that is not leaving the page.
+    window.setTimeout(() => {
+      if (!document.hasFocus()) pauseOtherProjectVideos();
+    }, 0);
   });
 }
 
@@ -464,7 +597,9 @@ function setupFilters() {
         const categories = card.dataset.category.split(" ");
         card.classList.toggle("hidden", selected !== "all" && !categories.includes(selected));
       });
-      if (videoStage.closest(".project-card").classList.contains("hidden")) resetProjectVideo();
+      projectPlayers.forEach((controller) => {
+        if (controller.card.classList.contains("hidden")) pauseProjectVideo(controller);
+      });
     });
   });
 }

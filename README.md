@@ -7,7 +7,8 @@ Static portfolio built with HTML, CSS and JavaScript. It can be opened directly 
 - Contact email: `iutirbio19@gmail.com`.
 - Replace or expand the project cards inside the `#projects` section.
 - Carved and Orbital Hopper are the featured games. Their local artwork is in `assets/projects`; other projects use `.project-visual` blocks.
-- Carved's gameplay and trailer are configured in `script.js`, inside `projectVideos`. The YouTube player loads only after pressing play and requires an internet connection. A direct YouTube link is also available.
+- Carved's gameplay/trailer and Orbital Hopper's gameplay Short are configured in `script.js`, inside `projectVideos`. The YouTube IFrame API and players load only after pressing play and require an internet connection. Direct YouTube links are also available.
+- Videos pause when less than 25% of the player is visible, when the page is hidden or loses focus, when a filter hides the project, or when another video starts. Returning to the page does not resume playback automatically; the player retains its position.
 - Carved links to its Windows download. Orbital Hopper links to the web demo and Android build on itch.io; that page currently requires a password. No access credentials are stored in this repository.
 - Bubble sizes, icons and skill descriptions are managed in `script.js`, inside `masteryStack`. Weights express the stack ranking, not measured proficiency percentages.
 - English and Catalan interface strings are managed in the `translations` object.
@@ -23,6 +24,7 @@ Static portfolio built with HTML, CSS and JavaScript. It can be opened directly 
 - Knot Works: https://www.youtube.com/@KnotWorks_GameDevelopment
 - Carved gameplay: https://www.youtube.com/watch?v=zGf6Rv4l1-w
 - Carved trailer: https://www.youtube.com/watch?v=T5j-b9MD9IY
+- Orbital Hopper gameplay: https://www.youtube.com/shorts/Fjt7YGtNRdA
 
 ## Asset Credits
 
@@ -33,3 +35,5 @@ Static portfolio built with HTML, CSS and JavaScript. It can be opened directly 
 - Action icons: [Lucide 0.468.0](https://github.com/lucide-icons/lucide), ISC license in `assets/icons/LUCIDE-LICENSE`.
 - Carved posters: thumbnails from the official Knot Works gameplay and trailer videos linked above. Iu Tirbio's UI programming credit is listed on the game's itch.io page.
 - Orbital Hopper cover: official artwork from the Penguin Studios itch.io page linked above.
+- Orbital Hopper gameplay poster: thumbnail from the gameplay Short linked above.
+- Favicon: original pixel-art IT monogram, with SVG, multi-resolution ICO and Apple touch icon variants in `assets`.

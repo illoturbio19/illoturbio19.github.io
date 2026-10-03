@@ -8,6 +8,9 @@
       content="Interactive portfolio for Iu Tirbio Solduga, a game developer focused on gameplay, simulation, physics and digital experiences."
     />
     <title>Iu Tirbio Solduga | Interactive Portfolio</title>
+    <link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" sizes="any" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -137,18 +140,28 @@
           </article>
 
           <article class="project-card reveal featured-project" data-project="orbital" data-category="game itch">
-            <a class="project-media orbital-cover" href="https://penguinstudiosgames.itch.io/orbital-hopper" target="_blank" rel="noreferrer" aria-label="Open Orbital Hopper on itch.io">
-              <img src="assets/projects/orbital-hopper.png" alt="Orbital Hopper cover" width="1024" height="1024" loading="lazy" />
-            </a>
-            <div class="project-availability">
-              <span class="demo-platform">Web demo · Android build</span>
-              <span class="demo-access"><img class="light-icon" src="assets/icons/lock-keyhole.svg" alt="" width="14" height="14" /><span>Password required</span></span>
+            <div class="project-media video-stage portrait-video" id="orbital-video">
+              <img class="video-poster" src="assets/projects/orbital-hopper-gameplay.webp" alt="Orbital Hopper gameplay preview" width="270" height="480" loading="lazy" />
+              <button class="video-play" type="button" aria-label="Play Orbital Hopper gameplay">
+                <span class="video-play-icon"><img class="light-icon" src="assets/icons/play.svg" alt="" width="28" height="28" /></span>
+                <span class="video-play-label">Gameplay · 1:24</span>
+              </button>
+            </div>
+            <div class="video-toolbar">
+              <span class="video-info">Gameplay · 1:24</span>
+              <a class="video-external" href="https://www.youtube.com/shorts/Fjt7YGtNRdA" target="_blank" rel="noreferrer">
+                <span>YouTube</span><img class="light-icon" src="assets/icons/arrow-up-right.svg" alt="" width="16" height="16" />
+              </a>
             </div>
             <div class="project-content">
               <p class="project-type">Penguin Studios · Unity · Web / Android</p>
               <h3>Orbital Hopper</h3>
               <p class="project-description">A space endless runner where you jump from planet to planet while a black hole devours the system.</p>
               <p class="project-role">Team project · ENTI · 2024/25</p>
+              <div class="project-availability">
+                <span class="demo-platform">Web demo · Android build</span>
+                <span class="demo-access"><img class="light-icon" src="assets/icons/lock-keyhole.svg" alt="" width="14" height="14" /><span>Password required</span></span>
+              </div>
               <div class="project-actions">
                 <a class="button primary" href="https://penguinstudiosgames.itch.io/orbital-hopper" target="_blank" rel="noreferrer">
                   <img src="assets/icons/play.svg" alt="" width="18" height="18" /><span class="build-label">Open demo on itch.io</span>

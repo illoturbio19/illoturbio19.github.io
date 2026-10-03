@@ -523,6 +523,10 @@ pre {
   background: #050606;
 }
 
+.video-stage {
+  min-height: 200px;
+}
+
 .project-media > img,
 .project-media > iframe {
   position: absolute;
@@ -533,7 +537,7 @@ pre {
   object-fit: cover;
 }
 
-.orbital-cover > img {
+.portrait-video > .video-poster {
   object-fit: contain;
 }
 
@@ -571,6 +575,7 @@ pre {
   position: absolute;
   right: 16px;
   bottom: 16px;
+  max-width: calc(100% - 32px);
   padding: 4px 8px;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.85);
@@ -630,10 +635,23 @@ pre {
   font-size: 0.8rem;
 }
 
+.video-info {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
 .project-availability {
   flex-wrap: wrap;
   color: var(--muted);
   font-size: 0.8rem;
+}
+
+.project-content .project-availability {
+  min-height: 0;
+  margin-bottom: 24px;
+  padding: 0;
+  border: 0;
 }
 
 .demo-access {
@@ -679,7 +697,6 @@ pre {
 .video-play:focus-visible,
 .video-option:focus-visible,
 .video-external:focus-visible,
-.orbital-cover:focus-visible,
 .project-actions a:focus-visible {
   outline: 2px solid var(--mint);
   outline-offset: -4px;
