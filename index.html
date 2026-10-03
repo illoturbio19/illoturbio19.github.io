@@ -8,7 +8,6 @@
       content="Interactive portfolio for Iu Tirbio Solduga, a game developer focused on gameplay, simulation, physics and digital experiences."
     />
     <title>Iu Tirbio Solduga | Interactive Portfolio</title>
-    <link rel="preconnect" href="https://avatars.githubusercontent.com" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -56,8 +55,8 @@
         <aside class="profile-orbit reveal" aria-label="Profile card">
           <div class="orbit-ring"></div>
           <img
-            src="https://avatars.githubusercontent.com/u/159422761?v=4"
-            alt="GitHub avatar for Iu Tirbio"
+            src="assets/pfp.jpeg"
+            alt="Portrait of Iu Tirbio"
             width="240"
             height="240"
           />
@@ -224,39 +223,18 @@
           <h2>What I can bring</h2>
         </div>
 
-        <div class="skills-layout">
-          <div class="skill-panel reveal">
-            <button class="skill-row active" type="button" data-skill="gameplay">
-              <span>01</span>
-              Gameplay programming
-            </button>
-            <button class="skill-row" type="button" data-skill="physics">
-              <span>02</span>
-              Physics and math
-            </button>
-            <button class="skill-row" type="button" data-skill="systems">
-              <span>03</span>
-              Systems and architecture
-            </button>
-            <button class="skill-row" type="button" data-skill="network">
-              <span>04</span>
-              Networked games
-            </button>
-          </div>
-
-          <article class="skill-detail reveal" id="skill-detail">
-            <p class="project-type">Select a line</p>
-            <h3>Gameplay programming</h3>
-            <p>
-              I turn ideas into playable prototypes: controls, camera, feedback, states and fast iteration to find what
-              makes an experience clear and fun.
-            </p>
-            <div class="meter-list">
-              <span style="--value: 88%">C++ / C#</span>
-              <span style="--value: 80%">SDL / SFML</span>
-              <span style="--value: 74%">Debug visual</span>
+        <div class="mastery-stack reveal">
+          <div class="mastery-map" id="mastery-map" role="group" aria-label="Languages and applications"></div>
+          <div class="mastery-detail" aria-live="polite" aria-atomic="true">
+            <div>
+              <p class="project-type" id="mastery-category">Language</p>
+              <h3 id="mastery-name">C++</h3>
             </div>
-          </article>
+            <p id="mastery-description">Gameplay, interactive systems and game programming.</p>
+          </div>
+          <noscript>
+            <p>C++, Unity, C#, Unreal Engine, C, GitHub, Git, Fork, ChatGPT, Jira, itch.io, HTML, CSS, JavaScript.</p>
+          </noscript>
         </div>
       </section>
 
@@ -265,28 +243,29 @@
           <p class="eyebrow">Contact</p>
           <h2>Let's build something playable.</h2>
           <p>
-            You can find me on LinkedIn or review my projects on GitHub. This portfolio is ready to grow with videos,
-            screenshots and playable builds as they become available.
+            Find me on LinkedIn, GitHub or Instagram, or get in touch by email.
           </p>
         </div>
 
         <div class="contact-actions reveal">
-          <a class="contact-card" href="https://www.linkedin.com/in/iu-tirbió-solduga-961ba632b/" target="_blank" rel="noreferrer">
-            <span>LinkedIn</span>
-            <strong>Professional profile</strong>
-          </a>
-          <a class="contact-card" href="https://github.com/illoturbio19" target="_blank" rel="noreferrer">
-            <span>GitHub</span>
-            <strong>@illoturbio19</strong>
-          </a>
-          <button class="contact-card copy-email" type="button" data-email="iu.tirbio@estudiant.enti.cat">
-            <span>Main email</span>
-            <strong id="copy-label">iu.tirbio@estudiant.enti.cat</strong>
-          </button>
-          <a class="contact-card" href="mailto:iutirbio19@gmail.com">
-            <span>Alternative email</span>
-            <strong>iutirbio19@gmail.com</strong>
-          </a>
+          <div class="social-links">
+            <a class="social-link" href="https://www.linkedin.com/in/iu-tirbió-solduga-961ba632b/" target="_blank" rel="noreferrer" aria-label="LinkedIn - Iu Tirbio Solduga" data-tooltip="LinkedIn">
+              <img src="assets/icons/linkedin.svg" alt="" width="40" height="40" />
+            </a>
+            <a class="social-link" href="mailto:iutirbio19@gmail.com" aria-label="Gmail - iutirbio19@gmail.com" data-tooltip="Gmail">
+              <img class="light-icon" src="assets/icons/gmail.svg" alt="" width="40" height="40" />
+            </a>
+            <a class="social-link" href="https://github.com/illoturbio19" target="_blank" rel="noreferrer" aria-label="GitHub - illoturbio19" data-tooltip="GitHub">
+              <img class="light-icon" src="assets/icons/github.svg" alt="" width="40" height="40" />
+            </a>
+            <a class="social-link" href="https://www.instagram.com/illoturbio/" target="_blank" rel="noreferrer" aria-label="Instagram - illoturbio" data-tooltip="Instagram">
+              <img class="light-icon" src="assets/icons/instagram.svg" alt="" width="40" height="40" />
+            </a>
+          </div>
+          <div class="contact-emails">
+            <a href="mailto:iutirbio19@gmail.com">iutirbio19@gmail.com</a>
+            <a href="mailto:iu.tirbio@estudiant.enti.cat">iu.tirbio@estudiant.enti.cat</a>
+          </div>
         </div>
       </section>
     </main>
@@ -296,6 +275,7 @@
       <a href="#home">Back to top</a>
     </footer>
 
+    <script src="assets/vendor/d3-hierarchy.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

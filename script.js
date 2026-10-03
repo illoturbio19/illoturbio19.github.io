@@ -8,18 +8,63 @@ const nav = document.querySelector(".nav-links");
 const reveals = [...document.querySelectorAll(".reveal")];
 const filters = [...document.querySelectorAll(".filter")];
 const cards = [...document.querySelectorAll(".project-card")];
-const skillRows = [...document.querySelectorAll(".skill-row")];
-const skillDetail = document.querySelector("#skill-detail");
-const copyEmail = document.querySelector(".copy-email");
-const copyLabel = document.querySelector("#copy-label");
+const masteryMap = document.querySelector("#mastery-map");
+const masteryName = document.querySelector("#mastery-name");
+const masteryCategory = document.querySelector("#mastery-category");
+const masteryDescription = document.querySelector("#mastery-description");
 const typewriter = document.querySelector("#typewriter");
 const languageToggle = document.querySelector("[data-language-toggle]");
+
+// Relative weights follow the portfolio's stack ranking, not proficiency percentages.
+const masteryStack = [
+  { name: "C++", icon: "cplusplus.svg", weight: 100, color: "#67b9ed", group: "language",
+    en: "Gameplay, interactive systems and game programming.",
+    ca: "Gameplay, sistemes interactius i programacio de videojocs." },
+  { name: "Unity", icon: "unity.svg", weight: 84, color: "#6ee7b7", group: "engine", light: true,
+    en: "Playable prototypes and games for web and mobile.",
+    ca: "Prototips jugables i jocs per a web i mobil." },
+  { name: "C#", icon: "csharp.svg", weight: 72, color: "#a5cf70", group: "language",
+    en: "Gameplay scripts, interactions and game logic in Unity.",
+    ca: "Scripts de gameplay, interaccions i logica de joc a Unity." },
+  { name: "Unreal", icon: "unrealengine.svg", weight: 58, color: "#e7e9ee", group: "engine", light: true,
+    en: "Game development and prototyping with Unreal Engine.",
+    ca: "Desenvolupament de jocs i prototips amb Unreal Engine." },
+  { name: "C", icon: "c.svg", weight: 48, color: "#7aafe4", group: "language",
+    en: "Programming fundamentals and working close to the system.",
+    ca: "Fonaments de programacio i treball proper al sistema." },
+  { name: "GitHub", icon: "github.svg", weight: 40, color: "#e2d9ef", group: "version", light: true,
+    en: "Repositories, project collaboration and sharing my work.",
+    ca: "Repositoris, collaboracio en projectes i publicacio del meu treball." },
+  { name: "Git", icon: "git.svg", weight: 35, color: "#f47c64", group: "version",
+    en: "Version control, branches and merging changes.",
+    ca: "Control de versions, branques i integracio de canvis." },
+  { name: "Fork", icon: "fork.png", weight: 31, color: "#67e8f9", group: "version",
+    en: "A visual Git workflow for commits, branches and history.",
+    ca: "Un flux de Git visual per a commits, branques i historial." },
+  { name: "ChatGPT", icon: "chatgpt.svg", weight: 28, color: "#76d4bc", group: "ai", light: true,
+    en: "AI assistance for exploring ideas, understanding code and troubleshooting.",
+    ca: "Assistencia d'IA per explorar idees, entendre codi i resoldre problemes." },
+  { name: "Jira", icon: "jira.svg", weight: 25, color: "#669efc", group: "planning",
+    en: "Task tracking and organizing work within a team.",
+    ca: "Seguiment de tasques i organitzacio del treball en equip." },
+  { name: "itch.io", icon: "itchdotio.svg", weight: 21, color: "#fb7185", group: "publishing", light: true,
+    en: "Publishing playable builds and sharing games.",
+    ca: "Publicacio de builds jugables i distribucio de jocs." },
+  { name: "HTML", icon: "html5.svg", weight: 18, color: "#f5a16b", group: "web",
+    en: "Structure and content for web pages, including this portfolio.",
+    ca: "Estructura i contingut de pagines web, inclos aquest portfolio." },
+  { name: "CSS", icon: "css3.svg", weight: 16, color: "#75b7ec", group: "web",
+    en: "Responsive layouts, visual styling and interface animation.",
+    ca: "Layouts adaptables, estil visual i animacio d'interficies." },
+  { name: "JavaScript", icon: "javascript.svg", weight: 14, color: "#f5d85d", group: "web",
+    en: "Interactive web interfaces and browser behaviour.",
+    ca: "Interficies web interactives i comportament al navegador." },
+];
 
 const translations = {
   en: {
     lang: "en",
     toggle: "CA",
-    copied: "Email copied",
     metaTitle: "Iu Tirbio Solduga | Interactive Portfolio",
     metaDescription:
       "Interactive portfolio for Iu Tirbio Solduga, a game developer focused on gameplay, simulation, physics and digital experiences.",
@@ -87,70 +132,19 @@ const translations = {
       ".contact .eyebrow": "Contact",
       ".contact h2": "Let's build something playable.",
       ".contact-copy p:not(.eyebrow)":
-        "You can find me on LinkedIn or review my projects on GitHub. This portfolio is ready to grow with videos, screenshots and playable builds as they become available.",
-      ".contact-actions .contact-card:nth-child(1) strong": "Professional profile",
-      ".copy-email span": "Main email",
-      ".contact-actions .contact-card:nth-child(4) span": "Alternative email",
+        "Find me on LinkedIn, GitHub or Instagram, or get in touch by email.",
       ".site-footer span": "Interactive portfolio · Iu Tirbio Solduga",
       ".site-footer a": "Back to top",
     },
-    html: {
-      ".skill-row[data-skill='gameplay']": "<span>01</span>Gameplay programming",
-      ".skill-row[data-skill='physics']": "<span>02</span>Physics and math",
-      ".skill-row[data-skill='systems']": "<span>03</span>Systems and architecture",
-      ".skill-row[data-skill='network']": "<span>04</span>Networked games",
-    },
-    skills: {
-      gameplay: {
-        label: "Select a line",
-        title: "Gameplay programming",
-        text:
-          "I turn ideas into playable prototypes: controls, camera, feedback, states and fast iteration to find what makes an experience clear and fun.",
-        meters: [
-          ["C++ / C#", "88%"],
-          ["SDL / SFML", "80%"],
-          ["Visual debug", "74%"],
-        ],
-      },
-      physics: {
-        label: "Applied math",
-        title: "Physics and simulation",
-        text:
-          "I work with rigidbodies, forces, vectors, quaternions and behaviour tests to make movement feel coherent inside the game.",
-        meters: [
-          ["Rigidbodies", "84%"],
-          ["Quaternions", "76%"],
-          ["Vectors / Forces", "86%"],
-        ],
-      },
-      systems: {
-        label: "Sustainable code",
-        title: "Systems and architecture",
-        text:
-          "I like separating responsibilities, keeping flows easy to read and creating small tools that help test and tune the game.",
-        meters: [
-          ["Architecture", "78%"],
-          ["Internal tools", "70%"],
-          ["State machines", "82%"],
-        ],
-      },
-      network: {
-        label: "Synchronization",
-        title: "Networked games",
-        text:
-          "I have worked with client-server foundations, messages and state synchronization, always thinking about how to keep the match readable.",
-        meters: [
-          ["Client / server", "76%"],
-          ["Message protocol", "72%"],
-          ["Synchronization", "68%"],
-        ],
-      },
+    stackLabel: "Languages and applications",
+    stackGroups: {
+      language: "Language", engine: "Game engine", version: "Version control",
+      ai: "AI", planning: "Project management", publishing: "Publishing", web: "Web",
     },
   },
   ca: {
     lang: "ca",
     toggle: "EN",
-    copied: "Email copiat",
     metaTitle: "Iu Tirbio Solduga | Portfolio Interactiu",
     metaDescription:
       "Portfolio interactiu d'Iu Tirbio Solduga, programador orientat a jocs, simulacio, fisica i experiencies digitals.",
@@ -217,70 +211,20 @@ const translations = {
       ".contact .eyebrow": "Contacte",
       ".contact h2": "Construim alguna cosa que es pugui jugar.",
       ".contact-copy p:not(.eyebrow)":
-        "Pots trobar-me a LinkedIn o revisar els meus projectes a GitHub. Aquest portfolio esta preparat per afegir-hi videos, captures o builds jugables quan els tinguis.",
-      ".contact-actions .contact-card:nth-child(1) strong": "Perfil professional",
-      ".copy-email span": "Email principal",
-      ".contact-actions .contact-card:nth-child(4) span": "Email alternatiu",
+        "Em pots trobar a LinkedIn, GitHub o Instagram, o contactar amb mi per email.",
       ".site-footer span": "Portfolio interactiu · Iu Tirbio Solduga",
       ".site-footer a": "Tornar amunt",
     },
-    html: {
-      ".skill-row[data-skill='gameplay']": "<span>01</span>Gameplay programming",
-      ".skill-row[data-skill='physics']": "<span>02</span>Fisica i matematiques",
-      ".skill-row[data-skill='systems']": "<span>03</span>Sistemes i arquitectura",
-      ".skill-row[data-skill='network']": "<span>04</span>Jocs en xarxa",
-    },
-    skills: {
-      gameplay: {
-        label: "Selecciona una linia",
-        title: "Gameplay programming",
-        text:
-          "Converteixo idees en prototips jugables: control, camera, feedback, estats i iteracio rapida per trobar que fa que una experiencia sigui clara i divertida.",
-        meters: [
-          ["C++ / C#", "88%"],
-          ["SDL / SFML", "80%"],
-          ["Debug visual", "74%"],
-        ],
-      },
-      physics: {
-        label: "Matematica aplicada",
-        title: "Fisica i simulacio",
-        text:
-          "Treballo amb rigidbodies, forces, vectors, quaternions i proves de comportament per fer que el moviment tingui sentit dins del joc.",
-        meters: [
-          ["Rigidbodies", "84%"],
-          ["Quaternions", "76%"],
-          ["Vectors / Forces", "86%"],
-        ],
-      },
-      systems: {
-        label: "Codi sostenible",
-        title: "Sistemes i arquitectura",
-        text:
-          "M'agrada separar responsabilitats, deixar fluxos facils de llegir i crear eines petites que ajudin a provar i ajustar el joc.",
-        meters: [
-          ["Arquitectura", "78%"],
-          ["Eines internes", "70%"],
-          ["State machines", "82%"],
-        ],
-      },
-      network: {
-        label: "Sincronitzacio",
-        title: "Jocs en xarxa",
-        text:
-          "He treballat bases de client-servidor, missatges i sincronitzacio d'estat, sempre pensant en com mantenir clara la partida.",
-        meters: [
-          ["Client / servidor", "76%"],
-          ["Protocol de missatges", "72%"],
-          ["Sincronitzacio", "68%"],
-        ],
-      },
+    stackLabel: "Llenguatges i aplicacions",
+    stackGroups: {
+      language: "Llenguatge", engine: "Motor de joc", version: "Control de versions",
+      ai: "IA", planning: "Gestio de projectes", publishing: "Publicacio", web: "Web",
     },
   },
 };
 
 let currentLanguage = "en";
-let currentSkill = "gameplay";
+let currentTool = masteryStack[0];
 let particles = [];
 let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 let typeIndex = 0;
@@ -298,23 +242,22 @@ function translateStaticText() {
     if (element) element.textContent = text;
   });
 
-  Object.entries(content.html).forEach(([selector, html]) => {
-    const element = document.querySelector(selector);
-    if (element) element.innerHTML = html;
+  masteryMap.setAttribute("aria-label", content.stackLabel);
+  [...masteryMap.children].forEach((button, index) => {
+    const tool = masteryStack[index];
+    button.title = `${tool.name} - ${content.stackGroups[tool.group]}`;
   });
 }
 
-function renderSkill(skillName = currentSkill) {
-  currentSkill = skillName;
-  const content = translations[currentLanguage].skills[skillName];
-  skillDetail.innerHTML = `
-    <p class="project-type">${content.label}</p>
-    <h3>${content.title}</h3>
-    <p>${content.text}</p>
-    <div class="meter-list">
-      ${content.meters.map(([name, value]) => `<span style="--value: ${value}">${name}</span>`).join("")}
-    </div>
-  `;
+function selectTool(tool = currentTool) {
+  currentTool = tool;
+  masteryName.textContent = tool.name === "Unreal" ? "Unreal Engine" : tool.name;
+  masteryCategory.textContent = translations[currentLanguage].stackGroups[tool.group];
+  masteryCategory.style.setProperty("--bubble-color", tool.color);
+  masteryDescription.textContent = tool[currentLanguage];
+  [...masteryMap.children].forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.dataset.tool === tool.name));
+  });
 }
 
 function writeConsole(reset = false) {
@@ -333,7 +276,7 @@ function writeConsole(reset = false) {
 function applyLanguage(language) {
   currentLanguage = language;
   translateStaticText();
-  renderSkill(currentSkill);
+  selectTool();
   writeConsole(true);
 }
 
@@ -464,12 +407,53 @@ function setupTilt() {
 }
 
 function setupSkills() {
-  skillRows.forEach((row) => {
-    row.addEventListener("click", () => {
-      skillRows.forEach((item) => item.classList.toggle("active", item === row));
-      renderSkill(row.dataset.skill);
-    });
+  masteryStack.forEach((tool) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "mastery-bubble";
+    button.dataset.tool = tool.name;
+    button.setAttribute("aria-label", tool.name);
+    button.style.setProperty("--bubble-color", tool.color);
+    const icon = document.createElement("img");
+    icon.src = `assets/icons/${tool.icon}`;
+    icon.alt = "";
+    icon.draggable = false;
+    if (tool.light) icon.classList.add("light-icon");
+    const label = document.createElement("span");
+    label.textContent = tool.name;
+    button.append(icon, label);
+    button.addEventListener("click", () => selectTool(tool));
+    masteryMap.append(button);
   });
+
+  function layoutBubbles() {
+    const width = masteryMap.clientWidth;
+    const height = masteryMap.clientHeight;
+    const gap = 5;
+    const circles = masteryStack.map((tool) => ({ r: Math.sqrt(tool.weight) * 8 + gap }));
+    d3.packSiblings(circles);
+    const left = Math.min(...circles.map((circle) => circle.x - circle.r));
+    const top = Math.min(...circles.map((circle) => circle.y - circle.r));
+    const right = Math.max(...circles.map((circle) => circle.x + circle.r));
+    const bottom = Math.max(...circles.map((circle) => circle.y + circle.r));
+    const scale = Math.min((width - 16) / (right - left), (height - 16) / (bottom - top));
+    const offsetX = (width - (right - left) * scale) / 2;
+    const offsetY = (height - (bottom - top) * scale) / 2;
+    circles.forEach((circle, index) => {
+      const button = masteryMap.children[index];
+      const diameter = (circle.r - gap) * scale * 2;
+      button.style.left = `${offsetX + (circle.x - left) * scale}px`;
+      button.style.top = `${offsetY + (circle.y - top) * scale}px`;
+      button.style.setProperty("--diameter", `${diameter}px`);
+      button.style.setProperty("--icon-size", `${Math.min(diameter * 0.4, 76)}px`);
+      button.style.setProperty("--label-size", `${diameter < 70 ? 10 : diameter < 100 ? 12 : 14}px`);
+      button.querySelector("span").textContent = masteryStack[index].name === "JavaScript" && diameter < 70
+        ? "JS" : masteryStack[index].name;
+    });
+  }
+
+  new ResizeObserver(layoutBubbles).observe(masteryMap);
+  layoutBubbles();
 }
 
 function setupMenu() {
@@ -485,18 +469,6 @@ function setupMenu() {
       menuToggle.classList.remove("open");
       menuToggle.setAttribute("aria-expanded", "false");
     });
-  });
-}
-
-function setupCopyEmail() {
-  copyEmail.addEventListener("click", async () => {
-    const email = copyEmail.dataset.email;
-    try {
-      await navigator.clipboard.writeText(email);
-      copyLabel.textContent = translations[currentLanguage].copied;
-    } catch {
-      copyLabel.textContent = email;
-    }
   });
 }
 
@@ -519,6 +491,7 @@ function setupLanguageToggle() {
 window.addEventListener("resize", resizeCanvas);
 window.addEventListener("mousemove", moveCursor);
 
+setupSkills();
 applyLanguage("en");
 resizeCanvas();
 drawScene();
@@ -526,8 +499,6 @@ setupReveal();
 setupScrollSpy();
 setupFilters();
 setupTilt();
-setupSkills();
 setupMenu();
-setupCopyEmail();
 setupCursorStates();
 setupLanguageToggle();
