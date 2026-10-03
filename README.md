@@ -4,8 +4,7 @@ Static portfolio built with HTML, CSS and JavaScript. It can be opened directly 
 
 ## Quick customization
 
-- Main email: `iu.tirbio@estudiant.enti.cat`.
-- Alternative email: `iutirbio19@gmail.com`.
+- Contact email: `iutirbio19@gmail.com`.
 - Replace or expand the project cards inside the `#projects` section.
 - If you have screenshots, GIFs or videos for the projects, replace the `.project-visual` blocks with images or embeds.
 - Bubble sizes, icons and skill descriptions are managed in `script.js`, inside `masteryStack`. Weights express the stack ranking, not measured proficiency percentages.
