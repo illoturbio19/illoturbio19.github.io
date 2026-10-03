@@ -437,10 +437,25 @@ pre {
 
 .section-heading {
   display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 24px;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
   margin-bottom: 32px;
+  text-align: center;
+}
+
+.section-heading h2 {
+  max-width: 100%;
+  font-size: 3rem;
+  line-height: 1.1;
+}
+
+.section-subtitle {
+  max-width: 100%;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.15rem;
+  line-height: 1.5;
 }
 
 .filter-bar {
@@ -843,6 +858,11 @@ pre {
   overflow-wrap: anywhere;
 }
 
+.mastery-bubble[data-tool="JavaScript"] span {
+  font-size: 10px;
+  white-space: nowrap;
+}
+
 .mastery-bubble:hover,
 .mastery-bubble[aria-pressed="true"] {
   border-color: var(--bubble-color);
@@ -875,30 +895,24 @@ pre {
 }
 
 .contact {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.72fr);
-  gap: clamp(28px, 6vw, 72px);
-  align-items: center;
-  width: min(1080px, calc(100% - 64px));
+  text-align: center;
 }
 
 .contact-actions {
   display: grid;
   gap: 24px;
+  justify-items: center;
 }
 
 .contact-copy {
   max-width: 650px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
-.contact h2 {
-  max-width: 680px;
-  font-size: clamp(2.8rem, 5vw, 4.85rem);
-  line-height: 1;
-}
-
-.contact-copy p:not(.eyebrow) {
+.contact-description {
   max-width: 580px;
+  margin: 0;
   font-size: 1.02rem;
 }
 
@@ -1039,8 +1053,7 @@ pre {
 }
 
 @media (max-width: 900px) {
-  .hero,
-  .contact {
+  .hero {
     grid-template-columns: 1fr;
   }
 
@@ -1109,14 +1122,6 @@ pre {
     padding: 86px 0;
   }
 
-  .contact {
-    width: min(100% - 24px, 1120px);
-  }
-
-  .contact h2 {
-    font-size: clamp(2.35rem, 13vw, 3.4rem);
-  }
-
   .hero {
     min-height: auto;
     padding-top: 120px;
@@ -1139,14 +1144,12 @@ pre {
     height: 410px;
   }
 
-  .skills .section-heading {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
+  .section-heading h2 {
+    font-size: 2rem;
   }
 
-  .skills h2 {
-    font-size: 2.25rem;
+  .section-subtitle {
+    font-size: 1rem;
   }
 
   .mastery-bubble {
