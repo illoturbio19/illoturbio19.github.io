@@ -14,6 +14,15 @@ const masteryCategory = document.querySelector("#mastery-category");
 const masteryDescription = document.querySelector("#mastery-description");
 const typewriter = document.querySelector("#typewriter");
 const languageToggle = document.querySelector("[data-language-toggle]");
+const videoStage = document.querySelector("#carved-video");
+const videoPlay = videoStage.querySelector(".video-play");
+const videoPoster = videoStage.querySelector(".video-poster");
+const videoOptions = [...document.querySelectorAll(".video-option")];
+const videoExternal = document.querySelector(".video-external");
+const projectVideos = {
+  gameplay: { id: "zGf6Rv4l1-w", poster: "assets/projects/carved-gameplay.jpg", duration: "2:22" },
+  trailer: { id: "T5j-b9MD9IY", poster: "assets/projects/carved-trailer.jpg", duration: "0:31" },
+};
 
 // Relative weights follow the portfolio's stack ranking, not proficiency percentages.
 const masteryStack = [
@@ -96,13 +105,16 @@ const translations = {
       ".filter[data-filter='game']": "Games",
       ".filter[data-filter='physics']": "Physics",
       ".filter[data-filter='network']": "Networking",
-      ".project-grid article:nth-child(1) .project-type": "Itch.io · Published game",
-      ".project-grid article:nth-child(1) .project-content p:not(.project-type)":
-        "Published on itch.io with a direct link so visitors can jump in and try it.",
-      ".project-grid article:nth-child(1) a": "Play on itch.io",
-      ".project-grid article:nth-child(2) .project-content p:not(.project-type)":
+      "[data-project='carved'] .project-description":
+        "A puppet, a sinister workshop and a friend to rebuild. Solve puzzles and escape the puppeteer's grasp.",
+      "[data-project='carved'] .project-role": "My role: UI programming",
+      "[data-project='carved'] .build-label": "Get Windows build",
+      "[data-project='orbital'] .project-description":
         "A space endless runner where you jump from planet to planet while a black hole devours the system.",
-      ".project-grid article:nth-child(2) a": "Play on itch.io",
+      "[data-project='orbital'] .project-role": "Team project · ENTI · 2024/25",
+      "[data-project='orbital'] .build-label": "Open demo on itch.io",
+      ".demo-platform": "Web demo · Android build",
+      ".demo-access span": "Password required",
       ".project-grid article:nth-child(3) .project-content p:not(.project-type)":
         "An arcade project built to practice game structure, input, states and fast iteration.",
       ".project-grid article:nth-child(3) a": "Open repo",
@@ -137,6 +149,11 @@ const translations = {
       ".site-footer a": "Back to top",
     },
     stackLabel: "Languages and applications",
+    videoLabels: { gameplay: "Gameplay", trailer: "Trailer" },
+    videoGroup: "Carved videos",
+    videoPlayLabel: "Play Carved",
+    videoPreviewLabel: "Carved video preview",
+    orbitalLinkLabel: "Open Orbital Hopper on itch.io",
     stackGroups: {
       language: "Language", engine: "Game engine", version: "Version control",
       ai: "AI", planning: "Project management", publishing: "Publishing", web: "Web",
@@ -175,13 +192,16 @@ const translations = {
       ".filter[data-filter='game']": "Jocs",
       ".filter[data-filter='physics']": "Fisica",
       ".filter[data-filter='network']": "Xarxa",
-      ".project-grid article:nth-child(1) .project-type": "Itch.io · Joc publicat",
-      ".project-grid article:nth-child(1) .project-content p:not(.project-type)":
-        "Projecte publicat a itch.io amb acces directe perque el visitant pugui entrar-hi i provar-lo.",
-      ".project-grid article:nth-child(1) a": "Jugar a itch.io",
-      ".project-grid article:nth-child(2) .project-content p:not(.project-type)":
+      "[data-project='carved'] .project-description":
+        "Un titella, un taller sinistre i una amiga per reconstruir. Resol puzles i escapa del titellaire.",
+      "[data-project='carved'] .project-role": "El meu rol: programacio d'interficies",
+      "[data-project='carved'] .build-label": "Descarregar per a Windows",
+      "[data-project='orbital'] .project-description":
         "Endless runner espacial on saltes de planeta en planeta mentre un forat negre devora el sistema.",
-      ".project-grid article:nth-child(2) a": "Jugar a itch.io",
+      "[data-project='orbital'] .project-role": "Projecte en equip · ENTI · 2024/25",
+      "[data-project='orbital'] .build-label": "Obrir demo a itch.io",
+      ".demo-platform": "Demo web · Versio Android",
+      ".demo-access span": "Cal contrasenya",
       ".project-grid article:nth-child(3) .project-content p:not(.project-type)":
         "Un projecte arcade pensat per practicar estructura de joc, input, estats i iteracio rapida.",
       ".project-grid article:nth-child(3) a": "Obrir repo",
@@ -216,6 +236,11 @@ const translations = {
       ".site-footer a": "Tornar amunt",
     },
     stackLabel: "Llenguatges i aplicacions",
+    videoLabels: { gameplay: "Gameplay", trailer: "Trailer" },
+    videoGroup: "Videos de Carved",
+    videoPlayLabel: "Reproduir Carved",
+    videoPreviewLabel: "Previsualitzacio del video de Carved",
+    orbitalLinkLabel: "Obrir Orbital Hopper a itch.io",
     stackGroups: {
       language: "Llenguatge", engine: "Motor de joc", version: "Control de versions",
       ai: "IA", planning: "Gestio de projectes", publishing: "Publicacio", web: "Web",
@@ -225,6 +250,7 @@ const translations = {
 
 let currentLanguage = "en";
 let currentTool = masteryStack[0];
+let currentVideo = "gameplay";
 let particles = [];
 let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 let typeIndex = 0;
@@ -246,6 +272,56 @@ function translateStaticText() {
   [...masteryMap.children].forEach((button, index) => {
     const tool = masteryStack[index];
     button.title = `${tool.name} - ${content.stackGroups[tool.group]}`;
+  });
+  translateProjectVideo();
+  document.querySelector(".orbital-cover").setAttribute("aria-label", content.orbitalLinkLabel);
+}
+
+function translateProjectVideo() {
+  const content = translations[currentLanguage];
+  const label = content.videoLabels[currentVideo];
+  videoPlay.setAttribute("aria-label", `${content.videoPlayLabel} ${label.toLowerCase()}`);
+  videoPlay.querySelector(".video-play-label").textContent = `${label} · ${projectVideos[currentVideo].duration}`;
+  videoPoster.alt = `${content.videoPreviewLabel} - ${label}`;
+  videoStage.querySelector("iframe")?.setAttribute("title", `Carved - ${label}`);
+  videoExternal.setAttribute("aria-label", `Carved - ${label} - YouTube`);
+  document.querySelector(".video-selector").setAttribute("aria-label", content.videoGroup);
+}
+
+function resetProjectVideo() {
+  videoStage.querySelector("iframe")?.remove();
+  videoPoster.hidden = false;
+  videoPlay.hidden = false;
+}
+
+function setupProjectVideos() {
+  videoOptions.forEach((option) => {
+    option.addEventListener("click", () => {
+      if (option.dataset.video === currentVideo) return;
+      resetProjectVideo();
+      currentVideo = option.dataset.video;
+      videoPoster.src = projectVideos[currentVideo].poster;
+      videoExternal.href = `https://www.youtube.com/watch?v=${projectVideos[currentVideo].id}`;
+      videoOptions.forEach((item) => {
+        item.classList.toggle("active", item === option);
+        item.setAttribute("aria-pressed", String(item === option));
+      });
+      translateProjectVideo();
+    });
+  });
+
+  videoPlay.addEventListener("click", () => {
+    // Load third-party media only after an explicit play action.
+    const frame = document.createElement("iframe");
+    frame.src = `https://www.youtube-nocookie.com/embed/${projectVideos[currentVideo].id}?autoplay=1&rel=0&playsinline=1`;
+    frame.title = `Carved - ${translations[currentLanguage].videoLabels[currentVideo]}`;
+    frame.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+    frame.allowFullscreen = true;
+    frame.referrerPolicy = "strict-origin-when-cross-origin";
+    videoPoster.hidden = true;
+    videoPlay.hidden = true;
+    videoStage.append(frame);
+    frame.focus();
   });
 }
 
@@ -380,17 +456,21 @@ function setupFilters() {
   filters.forEach((filter) => {
     filter.addEventListener("click", () => {
       const selected = filter.dataset.filter;
-      filters.forEach((item) => item.classList.toggle("active", item === filter));
+      filters.forEach((item) => {
+        item.classList.toggle("active", item === filter);
+        item.setAttribute("aria-pressed", String(item === filter));
+      });
       cards.forEach((card) => {
         const categories = card.dataset.category.split(" ");
         card.classList.toggle("hidden", selected !== "all" && !categories.includes(selected));
       });
+      if (videoStage.closest(".project-card").classList.contains("hidden")) resetProjectVideo();
     });
   });
 }
 
 function setupTilt() {
-  cards.forEach((card) => {
+  cards.filter((card) => card.classList.contains("tilt")).forEach((card) => {
     card.addEventListener("mousemove", (event) => {
       const rect = card.getBoundingClientRect();
       const x = event.clientX - rect.left;
@@ -492,6 +572,7 @@ window.addEventListener("resize", resizeCanvas);
 window.addEventListener("mousemove", moveCursor);
 
 setupSkills();
+setupProjectVideos();
 applyLanguage("en");
 resizeCanvas();
 drawScene();

@@ -94,43 +94,66 @@
           <p class="section-subtitle">Projects in motion</p>
         </div>
 
-        <div class="filter-bar reveal" role="tablist" aria-label="Filter projects">
-          <button class="filter active" type="button" data-filter="all">All</button>
-          <button class="filter" type="button" data-filter="game">Games</button>
-          <button class="filter" type="button" data-filter="itch">Itch.io</button>
-          <button class="filter" type="button" data-filter="physics">Physics</button>
-          <button class="filter" type="button" data-filter="network">Networking</button>
+        <div class="filter-bar reveal" role="group" aria-label="Filter projects">
+          <button class="filter active" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter" type="button" data-filter="game" aria-pressed="false">Games</button>
+          <button class="filter" type="button" data-filter="itch" aria-pressed="false">Itch.io</button>
+          <button class="filter" type="button" data-filter="physics" aria-pressed="false">Physics</button>
+          <button class="filter" type="button" data-filter="network" aria-pressed="false">Networking</button>
         </div>
 
         <div class="project-grid">
-          <article class="project-card tilt reveal featured-project" data-category="game itch" tabindex="0">
-            <div class="project-visual carved">
-              <span></span>
-              <span></span>
-              <span></span>
+          <article class="project-card reveal featured-project" data-project="carved" data-category="game itch">
+            <div class="project-media video-stage" id="carved-video">
+              <img class="video-poster" src="assets/projects/carved-gameplay.jpg" alt="Carved gameplay preview" width="720" height="404" loading="lazy" />
+              <button class="video-play" type="button" aria-label="Play Carved gameplay">
+                <span class="video-play-icon"><img class="light-icon" src="assets/icons/play.svg" alt="" width="28" height="28" /></span>
+                <span class="video-play-label">Gameplay · 2:22</span>
+              </button>
+            </div>
+            <div class="video-toolbar">
+              <div class="video-selector" role="group" aria-label="Carved videos">
+                <button class="video-option active" type="button" data-video="gameplay" aria-pressed="true" aria-controls="carved-video">Gameplay <span>2:22</span></button>
+                <button class="video-option" type="button" data-video="trailer" aria-pressed="false" aria-controls="carved-video">Trailer <span>0:31</span></button>
+              </div>
+              <a class="video-external" href="https://www.youtube.com/watch?v=zGf6Rv4l1-w" target="_blank" rel="noreferrer">
+                <span>YouTube</span><img class="light-icon" src="assets/icons/arrow-up-right.svg" alt="" width="16" height="16" />
+              </a>
             </div>
             <div class="project-content">
-              <p class="project-type">Itch.io · Published game</p>
+              <p class="project-type">Knot Works · Unreal Engine 5 · Windows</p>
               <h3>Carved</h3>
-              <p>Published on itch.io with a direct link so visitors can jump in and try it.</p>
-              <a href="https://illoturbio19.itch.io/carved" target="_blank" rel="noreferrer">Play on itch.io</a>
+              <p class="project-description">A puppet, a sinister workshop and a friend to rebuild. Solve puzzles and escape the puppeteer's grasp.</p>
+              <p class="project-role">My role: UI programming</p>
+              <div class="project-actions">
+                <a class="button primary" href="https://illoturbio19.itch.io/carved#download" target="_blank" rel="noreferrer">
+                  <img src="assets/icons/download.svg" alt="" width="18" height="18" /><span class="build-label">Get Windows build</span>
+                </a>
+                <a class="project-team" href="https://www.youtube.com/@KnotWorks_GameDevelopment" target="_blank" rel="noreferrer">
+                  <span>Knot Works</span><img class="light-icon" src="assets/icons/arrow-up-right.svg" alt="" width="16" height="16" />
+                </a>
+              </div>
             </div>
           </article>
 
-          <article class="project-card tilt reveal featured-project" data-category="game itch" tabindex="0">
-            <div class="project-visual orbital">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
+          <article class="project-card reveal featured-project" data-project="orbital" data-category="game itch">
+            <a class="project-media orbital-cover" href="https://penguinstudiosgames.itch.io/orbital-hopper" target="_blank" rel="noreferrer" aria-label="Open Orbital Hopper on itch.io">
+              <img src="assets/projects/orbital-hopper.png" alt="Orbital Hopper cover" width="1024" height="1024" loading="lazy" />
+            </a>
+            <div class="project-availability">
+              <span class="demo-platform">Web demo · Android build</span>
+              <span class="demo-access"><img class="light-icon" src="assets/icons/lock-keyhole.svg" alt="" width="14" height="14" /><span>Password required</span></span>
             </div>
             <div class="project-content">
-              <p class="project-type">Itch.io · Unity · HTML5 / Android</p>
+              <p class="project-type">Penguin Studios · Unity · Web / Android</p>
               <h3>Orbital Hopper</h3>
-              <p>A space endless runner where you jump from planet to planet while a black hole devours the system.</p>
-              <a href="https://penguinstudiosgames.itch.io/orbital-hopper" target="_blank" rel="noreferrer">
-                Play on itch.io
-              </a>
+              <p class="project-description">A space endless runner where you jump from planet to planet while a black hole devours the system.</p>
+              <p class="project-role">Team project · ENTI · 2024/25</p>
+              <div class="project-actions">
+                <a class="button primary" href="https://penguinstudiosgames.itch.io/orbital-hopper" target="_blank" rel="noreferrer">
+                  <img src="assets/icons/play.svg" alt="" width="18" height="18" /><span class="build-label">Open demo on itch.io</span>
+                </a>
+              </div>
             </div>
           </article>
 
