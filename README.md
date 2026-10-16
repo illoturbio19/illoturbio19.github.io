@@ -1,6 +1,19 @@
 # Iu Tirbio Interactive Portfolio
 
-Static portfolio built with HTML, CSS and JavaScript. It can be opened directly in the browser through `index.html`.
+Static portfolio built with HTML, CSS and JavaScript. No build or installation is required. Serve this folder with a static web server, or deploy it on GitHub Pages.
+
+## The Conservatory
+
+- The opening scene is a small original 2D exploration space powered by local Phaser 3.90.0 and Arcade Physics. It does not use Hollow Knight artwork, characters or audio.
+- Walk with A/D or Left/Right, jump with Space/Up/W, and enter the nearest destination with E/Enter while the canvas has focus. The on-screen controls also support touch; keyboard activation of a direction button walks one short step. Clicking an empty part of the scene walks to it.
+- The Archive leads to About, the Workshop to Projects, the Sanctuary to Tools and the Station to Contact. These are also normal links. The header and the full portfolio remain usable without playing or if the engine is unavailable.
+- Pause and reset controls are available. The scene sleeps offscreen and when the document is hidden; movement input clears on focus loss. The scene is silent and respects reduced-motion camera preferences.
+- Scene layout is defined in `assets/kingdom/world-layout.js`; behavior, controls and EN/CA scene strings in `assets/kingdom/exploration.js`. `kingdom.css` supplies the visual design over the shared component styles in `styles.css`.
+- The background is a local 270 KB WebP. Its ImageGen prompt and art direction are recorded in `assets/kingdom/ART-DIRECTION.md`. The character and crest are original code-native artwork.
+
+## Previous Portfolio Backup
+
+The exact pre-redesign portfolio is preserved at commit `185f507` on `codex/backup-portfolio-2026-10-16`. A separate ZIP copy was also saved outside the repository before editing. The backup branch is not used for deployment; `main` contains the redesign.
 
 ## Quick customization
 
@@ -17,7 +30,7 @@ Static portfolio built with HTML, CSS and JavaScript. It can be opened directly 
 
 ## Checks
 
-Run the magnetic bubble gesture and physics regression tests with `node --test tests/magnetic-bubbles.test.cjs`. No installation is required.
+Run `node --test tests/magnetic-bubbles.test.cjs tests/world-layout.test.cjs`. These cover magnetic gestures, collisions, cancellation, keyboard click handling and scene geometry across mobile, tablet, desktop and ultrawide sizes. No installation is required. Manually verify continuous movement, jumping, camera follow, pause/reset, direct navigation, language switching and video behavior in a browser.
 
 ## Included links
 
@@ -33,6 +46,9 @@ Run the magnetic bubble gesture and physics regression tests with `node --test t
 
 ## Asset Credits
 
+- Exploration engine: [Phaser 3.90.0](https://github.com/phaserjs/phaser/tree/v3.90.0), MIT license in `assets/vendor/PHASER-LICENSE.md`.
+- Display typography: Cormorant Garamond, served locally from the official Google Fonts distribution. SIL Open Font License in `assets/fonts/CORMORANT-LICENSE.txt`.
+- Conservatory background: original artwork generated with the built-in ImageGen tool for this portfolio. See `assets/kingdom/ART-DIRECTION.md`. Lantern keeper and conservatory crest: original vector/canvas artwork.
 - Circle packing: [d3-hierarchy 3.1.2](https://github.com/d3/d3-hierarchy), ISC license in `assets/vendor/D3-LICENSE`.
 - Magnetic bubble physics: [d3-force 3.0.0](https://github.com/d3/d3-force), with d3-dispatch 3.0.1, d3-quadtree 3.0.1 and d3-timer 3.0.1. ISC licenses are included in `assets/vendor/D3-FORCE-LICENSE`, `D3-DISPATCH-LICENSE`, `D3-QUADTREE-LICENSE` and `D3-TIMER-LICENSE`. All dependencies are local.
 - Development logos: [Devicon 2.17.0](https://github.com/devicons/devicon), MIT license in `assets/icons/DEVICON-LICENSE`.
@@ -42,4 +58,4 @@ Run the magnetic bubble gesture and physics regression tests with `node --test t
 - Carved posters: thumbnails from the official Knot Works gameplay and trailer videos linked above. Iu Tirbio's UI programming credit is listed on the game's itch.io page.
 - Orbital Hopper cover: official artwork from the Penguin Studios itch.io page linked above.
 - Orbital Hopper gameplay poster: thumbnail from the gameplay Short linked above.
-- Favicon: original pixel-art IT monogram, with SVG, multi-resolution ICO and Apple touch icon variants in `assets`.
+- Current favicon and Apple touch icon: the original pointed-arch IT crest in `assets/kingdom`. The previous pixel-art icons are retained in `assets` with the earlier portfolio assets.

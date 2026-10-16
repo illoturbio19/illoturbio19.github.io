@@ -1,7 +1,3 @@
-const canvas = document.querySelector("#scene");
-const ctx = canvas.getContext("2d");
-const cursorDot = document.querySelector(".cursor-dot");
-const cursorRing = document.querySelector(".cursor-ring");
 const navLinks = [...document.querySelectorAll(".nav-links a")];
 const menuToggle = document.querySelector(".menu-toggle");
 const nav = document.querySelector(".nav-links");
@@ -12,7 +8,6 @@ const masteryMap = document.querySelector("#mastery-map");
 const masteryName = document.querySelector("#mastery-name");
 const masteryCategory = document.querySelector("#mastery-category");
 const masteryDescription = document.querySelector("#mastery-description");
-const typewriter = document.querySelector("#typewriter");
 const languageToggle = document.querySelector("[data-language-toggle]");
 const projectVideos = {
   carved: {
@@ -90,30 +85,23 @@ const translations = {
     metaTitle: "Iu Tirbio Solduga | Interactive Portfolio",
     metaDescription:
       "Interactive portfolio for Iu Tirbio Solduga, a game developer focused on gameplay, simulation, physics and digital experiences.",
-    consoleLines: [
-      "> boot portfolio.exe",
-      "> profile: Iu Tirbio Solduga",
-      "> focus: gameplay + simulation + networking",
-      "> status: ready to build the next prototype",
-    ],
     text: {
       ".brand span:last-child": "Iu Tirbio",
-      ".nav-links a[data-section='home']": "Home",
+      ".nav-links a[data-section='home']": "Explore",
       ".nav-links a[data-section='projects']": "Projects",
-      ".nav-links a[data-section='skills']": "Skills",
+      ".nav-links a[data-section='skills']": "Tools",
+      ".nav-links a[data-section='about']": "About",
       ".nav-links a[data-section='contact']": "Contact",
-      ".hero-copy .eyebrow": "Game developer · Simulation · Networking",
       ".lead":
         "I build playable prototypes and interactive systems with a gameplay mindset, applied physics and clear code.",
-      ".hero-actions .primary": "View projects",
       ".status-chip": "Available for internships and projects",
       ".stats-band article:nth-child(1) span": "Prototypes, loops and visual feedback",
       ".stats-band article:nth-child(2) strong": "Physics",
       ".stats-band article:nth-child(2) span": "Rigidbodies, quaternions and simulation",
       ".stats-band article:nth-child(3) strong": "Networking",
       ".stats-band article:nth-child(3) span": "Clients, servers and synchronization",
-      ".projects h2": "Repos and prototypes",
-      ".projects .section-subtitle": "Projects in motion",
+      ".projects h2": "Selected works",
+      ".projects .section-subtitle": "Games, systems & experiments",
       ".filter[data-filter='all']": "All",
       ".filter[data-filter='game']": "Games",
       ".filter[data-filter='physics']": "Physics",
@@ -152,8 +140,8 @@ const translations = {
       ".project-grid article:nth-child(6) a": "Private repo · profile",
       ".project-grid article:nth-child(7) a": "Private repo · profile",
       ".project-grid article:nth-child(8) a": "Private repo · profile",
-      ".skills h2": "Personal stack",
-      ".skills .section-subtitle": "What I can bring",
+      ".skills h2": "Collected tools",
+      ".skills .section-subtitle": "What I bring to a world",
       ".contact h2": "Contact",
       ".contact .section-subtitle": "Let's build something playable.",
       ".contact-description":
@@ -179,29 +167,22 @@ const translations = {
     metaTitle: "Iu Tirbio Solduga | Portfolio Interactiu",
     metaDescription:
       "Portfolio interactiu d'Iu Tirbio Solduga, programador orientat a jocs, simulacio, fisica i experiencies digitals.",
-    consoleLines: [
-      "> boot portfolio.exe",
-      "> perfil: Iu Tirbio Solduga",
-      "> focus: gameplay + simulacio + networking",
-      "> estat: preparat per construir el proper prototip",
-    ],
     text: {
       ".brand span:last-child": "Iu Tirbio",
-      ".nav-links a[data-section='home']": "Inici",
+      ".nav-links a[data-section='home']": "Explorar",
       ".nav-links a[data-section='projects']": "Projectes",
-      ".nav-links a[data-section='skills']": "Skills",
+      ".nav-links a[data-section='skills']": "Eines",
+      ".nav-links a[data-section='about']": "Sobre mi",
       ".nav-links a[data-section='contact']": "Contacte",
-      ".hero-copy .eyebrow": "Game developer · Simulacio · Xarxa",
       ".lead": "Creo prototips jugables i sistemes interactius amb mentalitat de gameplay, fisica i codi clar.",
-      ".hero-actions .primary": "Veure projectes",
       ".status-chip": "Disponible per practiques i projectes",
       ".stats-band article:nth-child(1) span": "Prototips, loops i feedback visual",
       ".stats-band article:nth-child(2) strong": "Fisica",
       ".stats-band article:nth-child(2) span": "Rigidbodies, quaternions i simulacio",
       ".stats-band article:nth-child(3) strong": "Xarxa",
       ".stats-band article:nth-child(3) span": "Clients, servidors i sincronitzacio",
-      ".projects h2": "Repos i prototips",
-      ".projects .section-subtitle": "Projectes en moviment",
+      ".projects h2": "Obres seleccionades",
+      ".projects .section-subtitle": "Jocs, sistemes i experiments",
       ".filter[data-filter='all']": "Tots",
       ".filter[data-filter='game']": "Jocs",
       ".filter[data-filter='physics']": "Fisica",
@@ -240,8 +221,8 @@ const translations = {
       ".project-grid article:nth-child(6) a": "Repo privat · perfil",
       ".project-grid article:nth-child(7) a": "Repo privat · perfil",
       ".project-grid article:nth-child(8) a": "Repo privat · perfil",
-      ".skills h2": "Stack personal",
-      ".skills .section-subtitle": "El que puc aportar",
+      ".skills h2": "Eines recollides",
+      ".skills .section-subtitle": "El que aporto a un mon",
       ".contact h2": "Contacte",
       ".contact .section-subtitle": "Construim alguna cosa que es pugui jugar.",
       ".contact-description":
@@ -265,10 +246,6 @@ const translations = {
 
 let currentLanguage = "en";
 let currentTool = masteryStack[0];
-let particles = [];
-let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-let typeIndex = 0;
-let typingTimer;
 
 function translateStaticText() {
   const content = translations[currentLanguage];
@@ -469,90 +446,11 @@ function selectTool(tool = currentTool) {
   });
 }
 
-function writeConsole(reset = false) {
-  if (typingTimer) window.clearTimeout(typingTimer);
-  if (reset) typeIndex = 0;
-
-  const fullText = translations[currentLanguage].consoleLines.join("\n");
-  typewriter.textContent = fullText.slice(0, typeIndex);
-  typeIndex += 1;
-
-  if (typeIndex <= fullText.length) {
-    typingTimer = window.setTimeout(() => writeConsole(false), 24);
-  }
-}
-
 function applyLanguage(language) {
   currentLanguage = language;
   translateStaticText();
   selectTool();
-  writeConsole(true);
-}
-
-function resizeCanvas() {
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = window.innerWidth * dpr;
-  canvas.height = window.innerHeight * dpr;
-  canvas.style.width = `${window.innerWidth}px`;
-  canvas.style.height = `${window.innerHeight}px`;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  particles = Array.from({ length: window.innerWidth < 700 ? 42 : 78 }, () => ({
-    x: Math.random() * window.innerWidth,
-    y: Math.random() * window.innerHeight,
-    vx: (Math.random() - 0.5) * 0.55,
-    vy: (Math.random() - 0.5) * 0.55,
-    size: Math.random() * 2.2 + 0.6,
-  }));
-}
-
-function drawScene() {
-  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-  particles.forEach((particle, index) => {
-    particle.x += particle.vx;
-    particle.y += particle.vy;
-
-    if (particle.x < 0 || particle.x > window.innerWidth) particle.vx *= -1;
-    if (particle.y < 0 || particle.y > window.innerHeight) particle.vy *= -1;
-
-    const dx = mouse.x - particle.x;
-    const dy = mouse.y - particle.y;
-    const distance = Math.hypot(dx, dy);
-
-    if (distance < 180) {
-      particle.x -= dx * 0.0018;
-      particle.y -= dy * 0.0018;
-    }
-
-    ctx.beginPath();
-    ctx.fillStyle = index % 4 === 0 ? "rgba(251, 191, 36, 0.42)" : "rgba(110, 231, 183, 0.32)";
-    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-    ctx.fill();
-
-    for (let otherIndex = index + 1; otherIndex < particles.length; otherIndex += 1) {
-      const other = particles[otherIndex];
-      const linkDistance = Math.hypot(particle.x - other.x, particle.y - other.y);
-      if (linkDistance < 118) {
-        ctx.strokeStyle = `rgba(244, 242, 232, ${0.11 - linkDistance / 1400})`;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(particle.x, particle.y);
-        ctx.lineTo(other.x, other.y);
-        ctx.stroke();
-      }
-    }
-  });
-
-  requestAnimationFrame(drawScene);
-}
-
-function moveCursor(event) {
-  mouse = { x: event.clientX, y: event.clientY };
-  cursorDot.style.left = `${event.clientX}px`;
-  cursorDot.style.top = `${event.clientY}px`;
-  cursorRing.animate(
-    { left: `${event.clientX}px`, top: `${event.clientY}px` },
-    { duration: 280, fill: "forwards", easing: "ease-out" },
-  );
+  document.dispatchEvent(new CustomEvent("portfolio:language", { detail: language }));
 }
 
 function setupReveal() {
@@ -600,23 +498,6 @@ function setupFilters() {
       projectPlayers.forEach((controller) => {
         if (controller.card.classList.contains("hidden")) pauseProjectVideo(controller);
       });
-    });
-  });
-}
-
-function setupTilt() {
-  cards.filter((card) => card.classList.contains("tilt")).forEach((card) => {
-    card.addEventListener("mousemove", (event) => {
-      const rect = card.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      const rotateY = (x / rect.width - 0.5) * 10;
-      const rotateX = (y / rect.height - 0.5) * -10;
-      card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-    });
-
-    card.addEventListener("mouseleave", () => {
-      card.style.transform = "";
     });
   });
 }
@@ -703,14 +584,6 @@ function setupMenu() {
   });
 }
 
-function setupCursorStates() {
-  const interactive = [...document.querySelectorAll("a, button, .project-card")];
-  interactive.forEach((element) => {
-    element.addEventListener("mouseenter", () => cursorRing.classList.add("active"));
-    element.addEventListener("mouseleave", () => cursorRing.classList.remove("active"));
-  });
-}
-
 function setupLanguageToggle() {
   if (!languageToggle) return;
 
@@ -719,19 +592,12 @@ function setupLanguageToggle() {
   });
 }
 
-window.addEventListener("resize", resizeCanvas);
-window.addEventListener("mousemove", moveCursor);
-
 setupSkills();
 document.querySelectorAll("img").forEach((image) => { image.draggable = false; });
 setupProjectVideos();
 applyLanguage("en");
-resizeCanvas();
-drawScene();
 setupReveal();
 setupScrollSpy();
 setupFilters();
-setupTilt();
 setupMenu();
-setupCursorStates();
 setupLanguageToggle();
